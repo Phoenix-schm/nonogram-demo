@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://h7ty2fpw4ts6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bsfxd"]
+bg_color = Color(0.061369076, 0.061369106, 0.061369054, 1)
+
+[node name="NonogramPuzzleManager" type="PanelContainer" unique_id=21713976]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="." unique_id=1962825199]
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="BarSizeControl" type="PanelContainer" parent="GridContainer" unique_id=1018142889]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+
+[node name="HBarControl" type="PanelContainer" parent="GridContainer" unique_id=1995195375]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bsfxd")
+
+[node name="VBarControl" type="PanelContainer" parent="GridContainer" unique_id=1368487675]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bsfxd")
+
+[node name="GridViewport" type="SubViewportContainer" parent="GridContainer" unique_id=1049036735]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+mouse_target = true
+
+[node name="SubViewport" type="SubViewport" parent="GridContainer/GridViewport" unique_id=1209853025]
+size = Vector2i(1052, 548)
+
+[node name="GridGeneration" type="PanelContainer" parent="GridContainer/GridViewport/SubViewport" unique_id=1648015931]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
