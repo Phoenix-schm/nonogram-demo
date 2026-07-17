@@ -17,8 +17,8 @@ public partial class GridCreation : Container
     [Export] public Color MainLineColor { get; set; } = Colors.Black;
     [Export] public Color DividerLineColor { get; set; } = Colors.Black;
 
-    [Export] public Vector2I CellCount { get; set; }
 
+    public Vector2I cellCount;
     public Vector2 gridSize;
     public float cellSize;     // uniform square size
 
@@ -32,8 +32,8 @@ public partial class GridCreation : Container
 
     public override void _Draw()
     {
-        isInitialized = false;
-
+        if (NonogramPuzzleManager.Instance == null)
+            return;
         InitializeGrid();
 
         mainLineWidth = cellSize * .09f;
@@ -41,7 +41,6 @@ public partial class GridCreation : Container
 
         DrawGrid();
 
-        isInitialized = true;
         OnGridFinishedInitializing?.Invoke();
         // TODO: Send signal to bars when finished initializing
     }
@@ -54,9 +53,9 @@ public partial class GridCreation : Container
 
     private float CalculateCellSize(Vector2 _viewportSize)
     {
-        if (CellCount.X <= 0 || CellCount.Y <= 0)
+        if (cellCount.X <= 0 || cellCount.Y <= 0)
         {
-            GameLogger.Error($"Cell Count contains less than 0 integer: {CellCount}");
+            GameLogger.Error($"Cell Count contains less than 0 integer: {cellCount}");
             return 0;
         }
 
@@ -70,10 +69,10 @@ public partial class GridCreation : Container
 
         // Cell size is set to be the smallest size it needs to be to fit the longest side of the grid
         // allows cell sizes to be square
-        if (CellCount.X > CellCount.Y)
-            return shortestSize / CellCount.X;
+        if (cellCount.X > cellCount.Y)
+            return shortestSize / cellCount.X;
         else
-            return shortestSize / CellCount.Y;
+            return shortestSize / cellCount.Y;
     }
 
     private void DrawGrid()
@@ -90,13 +89,13 @@ public partial class GridCreation : Container
 
     private void DrawMainGridLines(Color lineColor, float lineWidth)
     {
-        Vector2[] mainsPos = new Vector2[CellCount.X * 2];
+        Vector2[] mainsPos = new Vector2[cellCount.X * 2];
 
         int iterator = 0;
-        for (int x = 0; x < CellCount.X;)
+        for (int x = 0; x < cellCount.X;)
         {
             mainsPos[iterator++] = new Vector2(x * cellSize, 0);
-            mainsPos[iterator++] = new Vector2(x * cellSize, CellCount.Y * cellSize);
+            mainsPos[iterator++] = new Vector2(x * cellSize, cellCount.Y * cellSize);
             x++;
         }
 
@@ -105,13 +104,13 @@ public partial class GridCreation : Container
         // Rotate draw
         DrawSetTransform(Vector2.Zero, float.Pi / 2, Vector2.One);
 
-        Vector2[] dividersPos = new Vector2[CellCount.Y * 2];
+        Vector2[] dividersPos = new Vector2[cellCount.Y * 2];
 
         iterator = 0;
-        for (int y = 0; y < CellCount.Y;)
+        for (int y = 0; y < cellCount.Y;)
         {
             dividersPos[iterator++] = new Vector2(y * cellSize, 0);
-            dividersPos[iterator++] = new Vector2(y * cellSize, -CellCount.X * cellSize);
+            dividersPos[iterator++] = new Vector2(y * cellSize, -cellCount.X * cellSize);
             y++;
         }
 
@@ -128,17 +127,17 @@ public partial class GridCreation : Container
     /// <param name="lineWidth"></param>
     private void DrawDividerLines(Color lineColor, float lineWidth)
     {
-        int dividerAmount = Mathf.FloorToInt(CellCount.X / DividerCount);
+        int dividerAmount = Mathf.FloorToInt(cellCount.X / DividerCount);
         // offset divider amount to adjust for showing lines from one end to the other
         Vector2[] mainsPos = new Vector2[(dividerAmount + 1) * 2];
 
         int iterator = 0;
-        for (int x = 0; x < CellCount.X + 1;)
+        for (int x = 0; x < cellCount.X + 1;)
         {
-            if (x == CellCount.X || (x % DividerCount) == 0)
+            if (x == cellCount.X || (x % DividerCount) == 0)
             {
                 mainsPos[iterator++] = new Vector2(x * cellSize, 0);
-                mainsPos[iterator++] = new Vector2(x * cellSize, CellCount.Y * cellSize);
+                mainsPos[iterator++] = new Vector2(x * cellSize, cellCount.Y * cellSize);
             }
             x++;
         }
@@ -148,16 +147,16 @@ public partial class GridCreation : Container
         // Rotate draw
         DrawSetTransform(Vector2.Zero, float.Pi / 2, Vector2.One);
 
-        dividerAmount = Mathf.FloorToInt(CellCount.Y / DividerCount);
+        dividerAmount = Mathf.FloorToInt(cellCount.Y / DividerCount);
         Vector2[] dividersPos = new Vector2[(dividerAmount + 1) * 2];
 
         iterator = 0;
-        for (int y = 0; y < CellCount.Y + 1;)
+        for (int y = 0; y < cellCount.Y + 1;)
         {
-            if (y == CellCount.Y || (y % DividerCount) == 0)
+            if (y == cellCount.Y || (y % DividerCount) == 0)
             {
                 dividersPos[iterator++] = new Vector2(y * cellSize, 0);
-                dividersPos[iterator++] = new Vector2(y * cellSize, -CellCount.X * cellSize);
+                dividersPos[iterator++] = new Vector2(y * cellSize, -cellCount.X * cellSize);
             }
             y++;
         }

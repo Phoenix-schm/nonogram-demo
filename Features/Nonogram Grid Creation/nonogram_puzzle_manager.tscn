@@ -2,13 +2,15 @@
 
 [ext_resource type="Script" uid="uid://711wt0clpjm5" path="res://Features/Nonogram Grid Creation/GridBackgroundColorGeneration.cs" id="1_24pnn"]
 [ext_resource type="Script" uid="uid://c7upej0i7ejjp" path="res://Features/Nonogram Grid Creation/GridCreation.cs" id="1_850oj"]
+[ext_resource type="Script" uid="uid://b3q70f8mg1wbc" path="res://Features/Nonogram Grid Creation/NonogramPuzzleManager.cs" id="1_laob2"]
+[ext_resource type="Image" uid="uid://c453hv7vmgmik" path="res://Assets/Level Images/NonogramTest/NonogramTest_30x30_001.png" id="2_c1s07"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bsfxd"]
-bg_color = Color(0.061369076, 0.061369106, 0.061369054, 1)
+bg_color = Color(0.4506483, 0.4506483, 0.45064825, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g3b8u"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_24pnn"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c1s07"]
 
 [node name="NonogramPuzzleManager" type="PanelContainer" unique_id=21713976]
 anchors_preset = 15
@@ -16,6 +18,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_laob2")
+Level = ExtResource("2_c1s07")
 
 [node name="GridContainer" type="GridContainer" parent="." unique_id=1962825199]
 layout_mode = 2
@@ -47,7 +51,7 @@ handle_input_locally = false
 size = Vector2i(1052, 548)
 render_target_update_mode = 4
 
-[node name="PanelContainer" type="PanelContainer" parent="GridContainer/GridViewport/SubViewport" unique_id=994344002]
+[node name="GridBG" type="PanelContainer" parent="GridContainer/GridViewport/SubViewport" unique_id=994344002]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -57,13 +61,12 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_g3b8u")
 script = ExtResource("1_24pnn")
 GridColor = Color(1, 1, 1, 1)
 
-[node name="GridGeneration" type="PanelContainer" parent="GridContainer/GridViewport/SubViewport" unique_id=1648015931]
+[node name="GridCreation" type="PanelContainer" parent="GridContainer/GridViewport/SubViewport" unique_id=542638427]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_24pnn")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_c1s07")
 script = ExtResource("1_850oj")
 DividerCount = 5
-CellCount = Vector2i(15, 15)

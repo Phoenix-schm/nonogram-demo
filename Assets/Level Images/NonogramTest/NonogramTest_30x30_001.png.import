@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://c453hv7vmgmik"
+path="res://.godot/imported/NonogramTest_30x30_001.png-94b119e63d6d45f5cfee4b5e3de88411.image"
+
+[deps]
+
+source_file="res://Assets/Level Images/NonogramTest/NonogramTest_30x30_001.png"
+dest_files=["res://.godot/imported/NonogramTest_30x30_001.png-94b119e63d6d45f5cfee4b5e3de88411.image"]
+
+[params]
+

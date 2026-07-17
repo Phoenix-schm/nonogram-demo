@@ -10,7 +10,8 @@ public partial class GridBackgroundColorGeneration : Control
         get { return gridColor; }
         set { gridColor = value;
             QueueRedraw();
-            } }
+            } 
+    }
     Color gridColor;
 
     GridCreation gridLogic;
@@ -24,7 +25,7 @@ public partial class GridBackgroundColorGeneration : Control
         DrawRect(
             new Rect2(
                 new Vector2(0, 0),
-                new Vector2(GridCreation.Instance.CellCount.X * cellSize, GridCreation.Instance.CellCount.Y * cellSize)
+                new Vector2(GridCreation.Instance.cellCount.X * cellSize, GridCreation.Instance.cellCount.Y * cellSize)
                 ),
                 GridColor
             );
