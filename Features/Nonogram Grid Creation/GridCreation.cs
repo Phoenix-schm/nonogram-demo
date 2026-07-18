@@ -8,7 +8,7 @@ namespace Features.NonogramGridCreation;
 [Tool]
 public partial class GridCreation : Container
 {
-    public static GridCreation Instance { get; set; }
+    public static GridCreation Instance { get; private set; }
 
     public static event Action OnGridFinishedInitializing;
 
