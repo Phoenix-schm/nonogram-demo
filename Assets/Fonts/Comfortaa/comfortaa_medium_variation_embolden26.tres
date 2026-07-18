@@ -1,0 +1,11 @@
+[gd_resource type="FontVariation" format=3 uid="uid://dl4a8h80xgxxe"]
+
+[ext_resource type="FontVariation" uid="uid://ehlla2hth7nu" path="res://fonts/Comfortaa/comfortaa_medium_variation_scaled.tres" id="1_4aunn"]
+
+[resource]
+base_font = ExtResource("1_4aunn")
+variation_opentype = {
+2003265652: 541
+}
+variation_embolden = 0.3
+spacing_glyph = -1

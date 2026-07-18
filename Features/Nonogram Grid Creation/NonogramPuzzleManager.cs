@@ -14,15 +14,15 @@ public partial class NonogramPuzzleManager : PanelContainer
     [ExportCategory("Grid Generation")]
     [Export] Image Level { get; set; }
 
-    public Vector2I CellCount;
+    public static Vector2I CellCount { get; private set; }
 
     // *** Hint Generation ***
-    public Array<R_BarHint> h_hints;
-    public Array<R_BarHint> v_hints;
+    public Array<R_BarHint> h_hints = new();
+    public Array<R_BarHint> v_hints = new();
 
-    bool isColorful;
+    public bool isColorful;
 
-    public Array<Color> colorList;
+    public Array<Color> colorList = new();
 
     public override void _Ready()
     {
@@ -32,8 +32,9 @@ public partial class NonogramPuzzleManager : PanelContainer
             return;
         }
 
-        CellCount = Level.GetSize();
-        colorList.Clear();
+        colorList = new();
+        h_hints = new();
+        v_hints = new();
 
         // create hints for h and v bars
         for (int x = 0; x < CellCount.X; x++)
@@ -83,7 +84,7 @@ public partial class NonogramPuzzleManager : PanelContainer
                 continue;
 
             // if there's a color swap, and we have a count going
-            if (prevColor != curColor && curAmount > 0)
+            if (prevColor > curColor && curAmount != 0)
             {
                 barHint.numberList.Add(curAmount);
                 curAmount = 0;
@@ -92,8 +93,8 @@ public partial class NonogramPuzzleManager : PanelContainer
             }
 
             // Add to count when have the same color
-            if (curAmount > 0 && curColor == prevColor)
-                curAmount = 0;
+            if ((curAmount > 0 && curColor == prevColor) || curAmount == 0)
+                curAmount += 1;
             else
             {
                 barHint.numberList.Add(curAmount);
@@ -135,12 +136,20 @@ public partial class NonogramPuzzleManager : PanelContainer
 
     public override void _EnterTree()
     {
-        if (Instance != null && Instance != this)
+        //if (Instance != null && Instance != this)
+        //{
+        //    GameLogger.Warning("Excess instance of singleton. Deleting...");
+        //    QueueFree();
+        //    return;
+        //}
+
+        if (Level == null)
         {
-            GameLogger.Warning("Excess instance of singleton. Deleting...");
-            QueueFree();
+            GameLogger.Error("Level image not initialized");
             return;
         }
+
+        CellCount = Level.GetSize();
 
         Instance = this;
     }

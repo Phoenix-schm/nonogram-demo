@@ -34,6 +34,9 @@ public partial class GridCreation : Container
     {
         if (NonogramPuzzleManager.Instance == null)
             return;
+
+        cellCount = NonogramPuzzleManager.CellCount;
+
         InitializeGrid();
 
         mainLineWidth = cellSize * .09f;
@@ -168,12 +171,12 @@ public partial class GridCreation : Container
 
     public override void _EnterTree()
     {
-        if (Instance != null && Instance != this)
-        {
-            GameLogger.Warning("Excess instance of singleton. Deleting...");
-            QueueFree();
-            return;
-        }
+        //if (Instance != null && Instance != this)
+        //{
+        //    GameLogger.Warning("Excess instance of singleton. Deleting...");
+        //    QueueFree();
+        //    return;
+        //}
 
         Instance = this;
     }
