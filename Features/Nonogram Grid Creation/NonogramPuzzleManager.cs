@@ -84,7 +84,7 @@ public partial class NonogramPuzzleManager : PanelContainer
                 continue;
 
             // if there's a color swap, and we have a count going
-            if (prevColor > curColor && curAmount != 0)
+            if (prevColor != curColor && curAmount > 0)
             {
                 barHint.numberList.Add(curAmount);
                 curAmount = 0;
@@ -102,7 +102,6 @@ public partial class NonogramPuzzleManager : PanelContainer
                 TryAddColorToList(curColor);
                 barHint.colorList.Add(curColor);
             }
-
             prevColor = curColor;
         }
 
@@ -114,6 +113,7 @@ public partial class NonogramPuzzleManager : PanelContainer
             barHint.colorList.Add(curColor);
         }
 
+        //GD.Print(barHint.numberList);
         return barHint;
     }
 

@@ -42,8 +42,8 @@ public abstract partial class BarControl : Control
 
         cellSize = GridCreation.Instance.cellSize;
 
-        notchCount = NonogramPuzzleManager.CellCount.X;
-        barHints = NonogramPuzzleManager.Instance.h_hints;
+        notchCount = GetNotchCount();
+        barHints = GetBarHints();
 
         if (cellSize <= 0)
         {
@@ -109,6 +109,10 @@ public abstract partial class BarControl : Control
             if (i != barHints[index].numberList.Count - 1)
                 newString += " ";
         }
+
+        if (newString == "")
+            newString = "0";
+
         return newString;
     }
 
@@ -117,13 +121,13 @@ public abstract partial class BarControl : Control
         // Get number list based on current notch
         string numString = CreateStringFromBarHint(index);
         // Split new string into a string array for each number
-        string[] spltString = numString.Split(" ");
+        string[] splitString = numString.Split(" ");
 
         // ensures empty arrays have "0" string
-        if (spltString.Length == 0)
-            spltString = ["0"];
+        if (splitString.Length == 0)
+            splitString = ["0"];
 
-        return spltString;
+        return splitString;
     }
 
     protected Color CheckLuminence(Color _bgColor)
@@ -141,6 +145,10 @@ public abstract partial class BarControl : Control
 
         return newColor;
     }
+
+    protected abstract int GetNotchCount();
+
+    protected abstract Array<R_BarHint> GetBarHints();
 
     public override void _EnterTree()
     {
