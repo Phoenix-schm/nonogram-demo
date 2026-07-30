@@ -3,6 +3,7 @@ using Features.NonogramGridCreation.BarGeneration;
 using Godot;
 using Godot.Collections;
 using System;
+using System.Collections.Generic;
 
 namespace Features.NonogramGridCreation;
 
@@ -17,12 +18,12 @@ public partial class NonogramPuzzleManager : PanelContainer
     public static Vector2I CellCount { get; private set; }
 
     // *** Hint Generation ***
-    public Array<RC_NotchHint> h_hints = new();
-    public Array<RC_NotchHint> v_hints = new();
+    public Array<RC_NotchHint> h_barHint = new();
+    public Array<RC_NotchHint> v_barHint = new();
 
     public bool isColorful;
 
-    public Array<Color> colorList = new();
+    public HashSet<Color> uniqueColorList = new();
 
     public override void _Ready()
     {
@@ -32,64 +33,56 @@ public partial class NonogramPuzzleManager : PanelContainer
             return;
         }
 
-        colorList = new();
-        h_hints = new();
-        v_hints = new();
+        uniqueColorList = new();
+        h_barHint = new();
+        v_barHint = new();
 
         // create hints for h and v bars
         for (int x = 0; x < CellCount.X; x++)
-            h_hints.Add(GetBarHint(x, CellCount.Y, false));
+            h_barHint.Add(GetNotchHint(x, CellCount.Y, false));
         for (int y = 0; y < CellCount.Y; y++)
-            v_hints.Add(GetBarHint(y, CellCount.X, true));
+            v_barHint.Add(GetNotchHint(y, CellCount.X, true));
 
-        if (colorList.Count == 1)
-            isColorful = false;
-        else
-            isColorful = true;
+        isColorful = uniqueColorList.Count > 1;
 
         GridCreation.Instance.cellCount = CellCount;
         GridCreation.Instance.QueueRedraw();
     }
 
-    private RC_NotchHint GetBarHint(int notch, int altNotch, bool isVertical)
+    private RC_NotchHint GetNotchHint(int notch, int altNotch, bool isVertical)
     {
-        RC_NotchHint barHint = new();
+        RC_NotchHint notchHint = new();
         Vector2I index;
 
         int curAmount = 0;
         Color curColor = Colors.White;
-
         Color prevColor = Colors.White;
 
-        // iterate thru cells in column/row
-        for(int y = 0; y < altNotch; y++)
+        // iterate through cells in current column/row
+        for(int cell = 0; cell < altNotch; cell++)
         {
-            if (isVertical)
-                index = new Vector2I(y, notch);
-            else
-                index = new Vector2I(notch, y);
-
+            index = isVertical ? new(cell, notch) : new(notch, cell);
             curColor = Level.GetPixelv(index);
 
             // if there's a swap to white, but we have a count going, add number
             if (curColor == Colors.White && curAmount > 0)
             {
-                barHint.numberList.Add(curAmount);
+                notchHint.numberList.Add(curAmount);
                 curAmount = 0;
-                TryAddColorToList(prevColor);
-                barHint.colorList.Add(prevColor);
+                uniqueColorList.Add(prevColor);
+                notchHint.colorList.Add(prevColor);
                 continue;
             }
-            else if (curColor == Colors.White)
+            else if (curColor == Colors.White) // move on
                 continue;
 
             // if there's a color swap, and we have a count going
             if (prevColor != curColor && curAmount > 0)
             {
-                barHint.numberList.Add(curAmount);
+                notchHint.numberList.Add(curAmount);
                 curAmount = 0;
-                TryAddColorToList(prevColor);
-                barHint.colorList.Add(prevColor);
+                uniqueColorList.Add(prevColor);
+                notchHint.colorList.Add(prevColor);
             }
 
             // Add to count when have the same color
@@ -97,10 +90,10 @@ public partial class NonogramPuzzleManager : PanelContainer
                 curAmount += 1;
             else
             {
-                barHint.numberList.Add(curAmount);
+                notchHint.numberList.Add(curAmount);
                 curAmount = 0;
-                TryAddColorToList(curColor);
-                barHint.colorList.Add(curColor);
+                uniqueColorList.Add(curColor);
+                notchHint.colorList.Add(curColor);
             }
             prevColor = curColor;
         }
@@ -108,30 +101,12 @@ public partial class NonogramPuzzleManager : PanelContainer
         // last check in case of notch being filled with color all the way to the end
         if (curAmount > 0)
         {
-            barHint.numberList.Add(curAmount);
-            TryAddColorToList(curColor);
-            barHint.colorList.Add(curColor);
+            notchHint.numberList.Add(curAmount);
+            uniqueColorList.Add(curColor);
+            notchHint.colorList.Add(curColor);
         }
 
-        //GD.Print(barHint.numberList);
-        return barHint;
-    }
-
-    private void TryAddColorToList(Color newColor)
-    {
-        bool isNewColor = true;
-
-        for (int i = 0; i < colorList.Count; i++)
-        {
-            if (colorList[i] == newColor)
-            {
-                isNewColor = false;
-                break;
-            }
-        }
-
-        if (isNewColor)
-            colorList.Add(newColor);
+        return notchHint;
     }
 
     public override void _EnterTree()

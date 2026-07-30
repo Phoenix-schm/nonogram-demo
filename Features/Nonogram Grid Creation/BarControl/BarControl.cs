@@ -68,9 +68,6 @@ public abstract partial class BarControl : Control
         if (fontSize < 1)
             // prevent 0/-1 check
             fontSize = 1;
-
-        //GD.Print($"Bar control font size: {fontSize}");
-
         
         notchThickness = cellSize * (cellSize > 37 ? .9f : 1); // thickness is slightly less than cellSize
 

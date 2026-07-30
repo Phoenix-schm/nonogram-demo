@@ -33,8 +33,8 @@ public partial class BarSizeControl : PanelContainer
         GetViewport().Connect(StaticStringRef.s_size_changed, Callable.From(OnSizeChanged));
 
         cellCount = NonogramPuzzleManager.CellCount;
-        h_longestHint = GetLargetBarHintNotch(NonogramPuzzleManager.Instance.h_hints);
-        v_longestHint = GetLargetBarHintNotch(NonogramPuzzleManager.Instance.v_hints);
+        h_longestHint = GetLargetBarHintNotch(NonogramPuzzleManager.Instance.h_barHint);
+        v_longestHint = GetLargetBarHintNotch(NonogramPuzzleManager.Instance.v_barHint);
 
         UpdateMinSizeWithConsequence();
     }

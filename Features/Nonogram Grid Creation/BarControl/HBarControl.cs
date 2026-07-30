@@ -140,7 +140,7 @@ public partial class HBarControl : BarControl
 
     protected override Array<RC_NotchHint> GetNotchHints()
     {
-        return NonogramPuzzleManager.Instance.h_hints;
+        return NonogramPuzzleManager.Instance.h_barHint;
     }
 
     protected override int GetNotchCount()

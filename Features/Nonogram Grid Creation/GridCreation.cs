@@ -82,6 +82,7 @@ public partial class GridCreation : Container
     private void DrawGrid()
     {
         DrawMainGridLines(MainLineColor, mainLineWidth);
+
         if (DividerCount <= 0)
         {
             // Less than zero safety check

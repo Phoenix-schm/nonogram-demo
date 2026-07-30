@@ -134,7 +134,7 @@ public partial class VBarControl : BarControl
 
     protected override Array<RC_NotchHint> GetNotchHints()
     {
-        return NonogramPuzzleManager.Instance.v_hints;
+        return NonogramPuzzleManager.Instance.v_barHint;
     }
 
     protected override int GetNotchCount()
