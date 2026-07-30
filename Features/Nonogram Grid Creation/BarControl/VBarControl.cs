@@ -16,7 +16,8 @@ public partial class VBarControl : BarControl
         canvasPos += (cellSize / 2) * viewportScale;
 
         // the font size as a float for far smoother transitioning
-        float pseudoFontSize = (cellSize * fontSizeModifier) * 1.1f * viewportScale;
+        float pseudoFontSize = (cellSize * fontSizeModifier) * viewportScale;
+        float font_divide = fontSize / 4;   // the slight offset from the edge of the last number
 
         int index = 0;
         int colorIndex = 0;
@@ -25,7 +26,7 @@ public partial class VBarControl : BarControl
             // Get number list based on current notch
             string[] splitString = CreateStringArrayFromNotchHint(i);
 
-            float calcNotchHeight = startPos - (splitString.Length * pseudoFontSize);
+            float calcNotchHeight = startPos - (splitString.Length * pseudoFontSize * 1.1f) - font_divide;
 
             barVectors[index++] = new Vector2(startPos, canvasPos);
             barVectors[index++] = new Vector2(calcNotchHeight, canvasPos);

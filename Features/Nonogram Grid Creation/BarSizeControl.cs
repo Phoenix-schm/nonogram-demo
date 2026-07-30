@@ -79,6 +79,7 @@ public partial class BarSizeControl : PanelContainer
 
         //GameLogger.Info($"Consequence: {Consequence}");
         //GameLogger.Info($"Grid Size: {gridViewportSize}");
+        //GameLogger.Info($"font modifier: {defaultFontSizeModifier}");
     }
 
     bool useSecondaryBarRatio;
@@ -93,19 +94,19 @@ public partial class BarSizeControl : PanelContainer
         float pseudoFontSize = cellSize * defaultFontSizeModifier;
 
         // Calculate length/height of bars based on font size
-        float calcHLength = GetNotchHBarLength(h_longestHint, pseudoFontSize, Mathf.RoundToInt(pseudoFontSize));
-        float calcVLength = GetNotchVBarLength(v_longestHint, pseudoFontSize, Mathf.RoundToInt(pseudoFontSize * 1.1f));
+        float calcHLength = GetNotchHBarLength(h_longestHint, pseudoFontSize, Mathf.RoundToInt(pseudoFontSize / 2));
+        float calcVLength = GetNotchVBarLength(v_longestHint, pseudoFontSize, Mathf.RoundToInt(pseudoFontSize / 4));
 
         Vector2 calcLongestNotches = new Vector2(calcVLength, calcHLength);
 
         // Calculate how much room is left between consequence and longest notches
         Vector2 roomForImprovement = Consequence - calcLongestNotches;
 
-        // longest notches are off screen and must adjust font or consequence
+        // longest notches are off screen
         if (roomForImprovement.X < 0 || roomForImprovement.Y < 0)
         {
-            // if Consequence is taking up 1/4th screen already
-            if ((Consequence.IsEqualApprox(defaultBarRatio) || Consequence.X >= defaultBarRatio.X || Consequence.Y >= defaultBarRatio.Y) && !useSecondaryBarRatio) //&& !useSecondaryBarRatio || (Consequence > defaultBarRatio) && (Consequence < secondaryBarRatio) && !useSecondaryBarRatio)
+            // if Consequence is already taking up 1/4th screen
+            if (!useSecondaryBarRatio && (Consequence.X >= defaultBarRatio.X || Consequence.Y >= defaultBarRatio.Y))
             {
                 // Try modifying font size
                 defaultFontSizeModifier -= .05f;
@@ -115,12 +116,12 @@ public partial class BarSizeControl : PanelContainer
                 if ((cellSize * defaultFontSizeModifier) < minimumFontSize)
                 {
                     defaultFontSizeModifier = .8f;
-                    GameLogger.Warning("Using secondary ratio");
+                    //GameLogger.Warning("Using secondary ratio");
                     useSecondaryBarRatio = true;
-                    //return true;
                 }
             }
-            else if (useSecondaryBarRatio && (Consequence.IsEqualApprox(secondaryBarRatio) || Consequence.X >= secondaryBarRatio.X || Consequence.Y >= secondaryBarRatio.Y))
+            // if Consequence is already taking up 1/3rd of screen
+            else if (useSecondaryBarRatio && (Consequence.X >= secondaryBarRatio.X || Consequence.Y >= secondaryBarRatio.Y))
             {
                 defaultFontSizeModifier -= .025f;
                 returnValid = false;
@@ -227,6 +228,6 @@ public partial class BarSizeControl : PanelContainer
     private float GetNotchVBarLength(int notchSize, float  fontSize, float fontDivide)
     {
         // arbitrary magic number to push vBarLength further from side
-        return (notchSize * fontSize) + fontDivide * 1.9f;
+        return (notchSize * fontSize * 1.1f) + fontDivide * 2;
     }
 }
