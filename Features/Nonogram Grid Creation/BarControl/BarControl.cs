@@ -71,7 +71,8 @@ public abstract partial class BarControl : Control
 
         //GD.Print($"Bar control font size: {fontSize}");
 
-        notchThickness = cellSize * .9f; // thickness is slightly less than cellSize
+        
+        notchThickness = cellSize * (cellSize > 37 ? .9f : 1); // thickness is slightly less than cellSize
 
         DrawWholeBarBackground(startPos);
 

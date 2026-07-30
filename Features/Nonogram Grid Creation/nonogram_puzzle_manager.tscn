@@ -3,18 +3,23 @@
 [ext_resource type="Script" uid="uid://711wt0clpjm5" path="res://Features/Nonogram Grid Creation/GridBackgroundColorGeneration.cs" id="1_24pnn"]
 [ext_resource type="Script" uid="uid://c7upej0i7ejjp" path="res://Features/Nonogram Grid Creation/GridCreation.cs" id="1_850oj"]
 [ext_resource type="Script" uid="uid://b3q70f8mg1wbc" path="res://Features/Nonogram Grid Creation/NonogramPuzzleManager.cs" id="1_laob2"]
-[ext_resource type="Image" uid="uid://be8ejy186hxd4" path="res://Assets/Level Images/NonogramTest/NonogramTest_30x30_004.png" id="2_rt4c0"]
+[ext_resource type="Image" uid="uid://c453hv7vmgmik" path="res://Assets/Level Images/NonogramTest/NonogramTest_30x30_001.png" id="2_rt4c0"]
 [ext_resource type="FontVariation" uid="uid://dl4a8h80xgxxe" path="res://Assets/Fonts/Comfortaa/comfortaa_medium_variation_embolden26.tres" id="3_q6bt6"]
 [ext_resource type="Script" uid="uid://c7adxpdojcf33" path="res://Features/Nonogram Grid Creation/BarSizeControl.cs" id="3_rt4c0"]
 [ext_resource type="Script" uid="uid://ces8jkraar1ks" path="res://Features/Nonogram Grid Creation/BarControl/HBarControl.cs" id="3_v7fx8"]
 [ext_resource type="FontVariation" uid="uid://ehlla2hth7nu" path="res://Assets/Fonts/Comfortaa/comfortaa_medium_variation_scaled.tres" id="5_qd3ie"]
 [ext_resource type="Script" uid="uid://d2vv1lkv6jqwy" path="res://Features/Nonogram Grid Creation/BarControl/VBarControl.cs" id="6_qd3ie"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_amml3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gju6a"]
+
 [sub_resource type="Theme" id="Theme_4hb5p"]
 default_font = ExtResource("3_q6bt6")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bsfxd"]
-bg_color = Color(0.45, 0.45, 0.45, 0.8)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_asftc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r6ddm"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g3b8u"]
 
@@ -26,6 +31,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_amml3")
 script = ExtResource("1_laob2")
 Level = ExtResource("2_rt4c0")
 
@@ -38,26 +44,29 @@ columns = 2
 [node name="BarSizeControl" type="PanelContainer" parent="GridContainer" unique_id=1018142889]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_gju6a")
 script = ExtResource("3_rt4c0")
 
 [node name="HBarControl" type="PanelContainer" parent="GridContainer" unique_id=1995195375]
 layout_mode = 2
 theme = SubResource("Theme_4hb5p")
-theme_override_styles/panel = SubResource("StyleBoxFlat_bsfxd")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_asftc")
 script = ExtResource("3_v7fx8")
-NotchColor = Color(0.1176, 0.1176, 0.24, 1)
-AltNotchColor = Color(0.1176, 0.1176, 0.24, 1)
-SelectedNotchColor = Color(0.1176, 0.1176, 0.24, 1)
+NotchColor = Color(0.01716813, 0.19386253, 0.18229502, 1)
+AltNotchColor = Color(0.01716813, 0.19386253, 0.18229502, 1)
+SelectedNotchColor = Color(0.21887222, 0.4901762, 0.50498164, 1)
+BGColor = Color(0.05490196, 0.39215687, 0.39215687, 1)
 AltFont = ExtResource("5_qd3ie")
 
 [node name="VBarControl" type="PanelContainer" parent="GridContainer" unique_id=1368487675]
 layout_mode = 2
 theme = SubResource("Theme_4hb5p")
-theme_override_styles/panel = SubResource("StyleBoxFlat_bsfxd")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_r6ddm")
 script = ExtResource("6_qd3ie")
-NotchColor = Color(0.1176, 0.1176, 0.24, 1)
-AltNotchColor = Color(0.1176, 0.1176, 0.24, 1)
-SelectedNotchColor = Color(0.1176, 0.1176, 0.24, 1)
+NotchColor = Color(0.01716813, 0.19386253, 0.18229502, 1)
+AltNotchColor = Color(0.01716813, 0.19386253, 0.18229502, 1)
+SelectedNotchColor = Color(0.21887222, 0.4901762, 0.50498164, 1)
+BGColor = Color(0.05490196, 0.39215687, 0.39215687, 1)
 AltFont = ExtResource("5_qd3ie")
 
 [node name="GridViewport" type="SubViewportContainer" parent="GridContainer" unique_id=1049036735]
