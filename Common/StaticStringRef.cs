@@ -18,4 +18,7 @@ public static class StaticStringRef
     public static readonly StringName a_moveDown = "Move Down";
     public static readonly StringName a_moveLeft = "Move Left";
     public static readonly StringName a_moveRight = "Move Right";
+
+    public static readonly StringName s_processFrame = "process_frame";
 }
+

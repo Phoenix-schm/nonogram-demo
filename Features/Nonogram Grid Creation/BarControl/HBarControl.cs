@@ -7,16 +7,17 @@ namespace Features.NonogramGridCreation.BarGeneration;
 [Tool]
 public partial class HBarControl : BarControl
 {
-    protected override void DrawBarBackgrounds(float interval, float _ratio, int steps, float startPos)
+    protected override void DrawBarBackgrounds(float viewportScale, int notches, float startPos)
     {
-        Vector2[] barVectors = new Vector2[steps * 2];
-        Color[] barColors = new Color[steps];
+        Vector2[] barVectors = new Vector2[notches * 2];
+        Color[] barColors = new Color[notches];
 
         float canvasPos = GridCreation.Instance.GetCanvasTransform().Origin.X;
-        canvasPos += (interval / 2) * _ratio;
+        // start from half cellsize
+        canvasPos += (cellSize / 2) * viewportScale;
 
         // the font size as a float for far smoother transitioning
-        float pseudoFontSize = (cellSize * fontSizeModifier) * _ratio;
+        float pseudoFontSize = (cellSize * fontSizeModifier) * viewportScale;
         float fontDivide = pseudoFontSize / 4;
 
         // draw background of entire bar
@@ -27,12 +28,12 @@ public partial class HBarControl : BarControl
 
         int index = 0;
         int colorIndex = 0;
-        for (int i = 0; i < steps; i++)
+        for (int i = 0; i < notches; i++)
         {
             // Get number list based on current notch
             string[] splitString = CreateStringArrayFromBarHint(i);
 
-            calcNotchHeight = startPos - ((splitString.Length) * pseudoFontSize) - fontDivide;
+            calcNotchHeight = startPos - ((splitString.Length) * pseudoFontSize) - fontDivide; // how long/tall notch is
 
             barVectors[index++] = new Vector2(canvasPos, calcNotchHeight);
             barVectors[index++] = new Vector2(canvasPos, startPos);
@@ -42,7 +43,7 @@ public partial class HBarControl : BarControl
             else
                 barColors[colorIndex++] = AltNotchColor;
 
-            canvasPos += interval * _ratio;
+            canvasPos += cellSize * viewportScale;  // increase canvasPos
         }
 
         DrawMultilineColors(barVectors, barColors, notchThickness);

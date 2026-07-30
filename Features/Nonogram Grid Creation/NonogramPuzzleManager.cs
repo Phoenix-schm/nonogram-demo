@@ -136,12 +136,15 @@ public partial class NonogramPuzzleManager : PanelContainer
 
     public override void _EnterTree()
     {
-        //if (Instance != null && Instance != this)
-        //{
-        //    GameLogger.Warning("Excess instance of singleton. Deleting...");
-        //    QueueFree();
-        //    return;
-        //}
+        if (!Engine.IsEditorHint())
+        {
+            if (Instance != null && Instance != this)
+            {
+                GameLogger.Warning("Excess instance of singleton. Deleting...");
+                QueueFree();
+                return;
+            }
+        }
 
         if (Level == null)
         {

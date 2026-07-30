@@ -59,18 +59,20 @@ public abstract partial class BarControl : Control
         Transform2D toCanvas = GridCreation.Instance.GetViewportTransform();
         float startPos = GetStartingPos(toCanvas);
 
-        // doesn't matter which scale, since will always be uniform scale changes
+        // doesn't matter which part of scale, since will always be uniform scale changes
         float ratio = toCanvas.Scale.Y;
 
+        fontSizeModifier = BarSizeControl.defaultFontSizeModifier;
+
         calcNotchHeight = 0;
-        fontSize = Mathf.RoundToInt(cellSize * fontSizeModifier);
+        fontSize = Mathf.RoundToInt(cellSize * fontSizeModifier);   // font size cannot be float
         if (fontSize < 1)
             // prevent 0/-1 check
             fontSize = 1;
 
         notchThickness = cellSize * .9f; // thickness is slightly less than cellSize
 
-        DrawBarBackgrounds(cellSize, ratio, notchCount, startPos);
+        DrawBarBackgrounds(ratio, notchCount, startPos);
         DrawBarNumbers(cellSize, ratio, notchCount, startPos);
     }
 
@@ -93,7 +95,7 @@ public abstract partial class BarControl : Control
     /// <param name="ratio">Scale of grid viewport</param>
     /// <param name="steps">how many notches in a bar. notch count</param>
     /// <param name="startPos">Starting position of the notches</param>
-    protected abstract void DrawBarBackgrounds(float interval, float _ratio, int steps, float startPos);
+    protected abstract void DrawBarBackgrounds(float _ratio, int steps, float startPos);
 
     protected abstract float GetStartingPos(Transform2D viewport);
 

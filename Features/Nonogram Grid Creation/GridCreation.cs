@@ -92,32 +92,32 @@ public partial class GridCreation : Container
 
     private void DrawMainGridLines(Color lineColor, float lineWidth)
     {
-        Vector2[] mainsPos = new Vector2[cellCount.X * 2];
+        Vector2[] vertLines = new Vector2[cellCount.X * 2]; // line positions
 
         int iterator = 0;
         for (int x = 0; x < cellCount.X;)
         {
-            mainsPos[iterator++] = new Vector2(x * cellSize, 0);
-            mainsPos[iterator++] = new Vector2(x * cellSize, cellCount.Y * cellSize);
+            vertLines[iterator++] = new Vector2(x * cellSize, 0);  // Start of line
+            vertLines[iterator++] = new Vector2(x * cellSize, cellCount.Y * cellSize); // End of line
             x++;
         }
 
-        DrawMultiline(mainsPos, lineColor, lineWidth);
+        DrawMultiline(vertLines, lineColor, lineWidth);
 
-        // Rotate draw
+        // Rotate draw for horizontal lines
         DrawSetTransform(Vector2.Zero, float.Pi / 2, Vector2.One);
 
-        Vector2[] dividersPos = new Vector2[cellCount.Y * 2];
+        Vector2[] horizLines = new Vector2[cellCount.Y * 2];
 
         iterator = 0;
         for (int y = 0; y < cellCount.Y;)
         {
-            dividersPos[iterator++] = new Vector2(y * cellSize, 0);
-            dividersPos[iterator++] = new Vector2(y * cellSize, -cellCount.X * cellSize);
-            y++;
+            horizLines[iterator++] = new Vector2(y * cellSize, 0);       // Start of line
+            horizLines[iterator++] = new Vector2(y * cellSize, -cellCount.X * cellSize); // End of line
+            y++;    
         }
 
-        DrawMultiline(dividersPos, lineColor, lineWidth);
+        DrawMultiline(horizLines, lineColor, lineWidth);
         // reset rotation
         DrawSetTransform(Vector2.Zero, 0, Vector2.One);
     }
@@ -171,13 +171,23 @@ public partial class GridCreation : Container
 
     public override void _EnterTree()
     {
-        //if (Instance != null && Instance != this)
-        //{
-        //    GameLogger.Warning("Excess instance of singleton. Deleting...");
-        //    QueueFree();
-        //    return;
-        //}
+        if (!Engine.IsEditorHint())
+        {
+            if (Instance != null && Instance != this)
+            {
+                GameLogger.Warning("Excess instance of singleton. Deleting...");
+                QueueFree();
+                return;
+            }
+        }
+
+        BarSizeControl.OnBarControlInitialized += QueueRedraw;
 
         Instance = this;
+    }
+
+    public override void _ExitTree()
+    {
+        BarSizeControl.OnBarControlInitialized -= QueueRedraw;
     }
 }
