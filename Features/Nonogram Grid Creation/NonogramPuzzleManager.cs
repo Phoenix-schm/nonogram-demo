@@ -17,8 +17,8 @@ public partial class NonogramPuzzleManager : PanelContainer
     public static Vector2I CellCount { get; private set; }
 
     // *** Hint Generation ***
-    public Array<R_BarHint> h_hints = new();
-    public Array<R_BarHint> v_hints = new();
+    public Array<RC_NotchHint> h_hints = new();
+    public Array<RC_NotchHint> v_hints = new();
 
     public bool isColorful;
 
@@ -51,9 +51,9 @@ public partial class NonogramPuzzleManager : PanelContainer
         GridCreation.Instance.QueueRedraw();
     }
 
-    private R_BarHint GetBarHint(int notch, int altNotch, bool isVertical)
+    private RC_NotchHint GetBarHint(int notch, int altNotch, bool isVertical)
     {
-        R_BarHint barHint = new();
+        RC_NotchHint barHint = new();
         Vector2I index;
 
         int curAmount = 0;

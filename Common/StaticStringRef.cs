@@ -20,5 +20,8 @@ public static class StaticStringRef
     public static readonly StringName a_moveRight = "Move Right";
 
     public static readonly StringName s_processFrame = "process_frame";
+    public static readonly StringName s_size_changed = "size_changed";
+
+    public static readonly StringName f_updateMinSizeOfConsequence = "UpdateMinSizeWithConsequence";
 }
 

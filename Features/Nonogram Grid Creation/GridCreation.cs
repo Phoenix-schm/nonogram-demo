@@ -52,6 +52,7 @@ public partial class GridCreation : Container
     {
         gridSize = GetViewportRect().Size;
         cellSize = CalculateCellSize(gridSize);
+        //GameLogger.Debug($"Grid Size: {gridSize}");
     }
 
     private float CalculateCellSize(Vector2 _viewportSize)

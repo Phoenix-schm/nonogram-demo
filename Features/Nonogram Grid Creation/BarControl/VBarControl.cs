@@ -7,31 +7,25 @@ namespace Features.NonogramGridCreation.BarGeneration;
 [Tool]
 public partial class VBarControl : BarControl
 {
-    protected override void DrawBarBackgrounds(float interval, float _ratio, int steps, float startPos)
+    protected override void DrawNotchBackgrounds(float viewportScale, int steps, float startPos)
     {
         Vector2[] barVectors = new Vector2[steps * 2];
         Color[] barColors = new Color[steps];
 
         float canvasPos = GridCreation.Instance.GetCanvasTransform().Origin.Y;
-        canvasPos += (interval / 2) * _ratio;
+        canvasPos += (cellSize / 2) * viewportScale;
 
         // the font size as a float for far smoother transitioning
-        float pseudoFontSize = (cellSize * fontSizeModifier) * 1.1f * _ratio;
-
-        // draw background of entire bar
-        DrawRect(
-            new Rect2(Vector2.Zero, new Vector2(startPos, GridCreation.Instance.cellCount.Y * GridCreation.Instance.cellSize)),
-            Colors.SeaGreen
-            );
+        float pseudoFontSize = (cellSize * fontSizeModifier) * 1.1f * viewportScale;
 
         int index = 0;
         int colorIndex = 0;
         for (int i = 0; i < steps; i++)
         {
             // Get number list based on current notch
-            string[] splitString = CreateStringArrayFromBarHint(i);
+            string[] splitString = CreateStringArrayFromNotchHint(i);
 
-            calcNotchHeight = startPos - ((splitString.Length) * pseudoFontSize);
+            float calcNotchHeight = startPos - (splitString.Length * pseudoFontSize);
 
             barVectors[index++] = new Vector2(startPos, canvasPos);
             barVectors[index++] = new Vector2(calcNotchHeight, canvasPos);
@@ -41,13 +35,13 @@ public partial class VBarControl : BarControl
             else
                 barColors[colorIndex++] = AltNotchColor;
 
-            canvasPos += interval * _ratio;
+            canvasPos += cellSize * viewportScale;
         }
 
         DrawMultilineColors(barVectors, barColors, notchThickness);
     }
 
-    protected override void DrawBarNumbers(float interval, float _ratio, int steps, float startPos)
+    protected override void DrawNotchNumbers(float interval, float _ratio, int steps, float startPos)
     {
         float canvasPos = GridCreation.Instance.GetCanvasTransform().Origin.Y;
         canvasPos += (interval / 2) * _ratio;
@@ -55,11 +49,11 @@ public partial class VBarControl : BarControl
         float pseudoFontSize = cellSize * fontSizeModifier * _ratio;
         fontSize = Mathf.RoundToInt(cellSize);
 
-        float blockDivide = pseudoFontSize / 5; // for chifting color blocks left
+        float blockDivide = pseudoFontSize / 5; // for shifting color blocks left
 
         for (int i = 0;  i < steps; i++)
         {
-            string[] splitString = CreateStringArrayFromBarHint(i);
+            string[] splitString = CreateStringArrayFromNotchHint(i);
 
             // how far from right numbers start from
             float stringMargin = startPos;
@@ -96,7 +90,7 @@ public partial class VBarControl : BarControl
                         bgColor.A = 0;
                     }
                     else
-                        bgColor = barHints[i].colorList[curNumber];
+                        bgColor = barHint[i].colorList[curNumber];
 
                     // modify font color to contrast with bg color
                     fontColor = CheckLuminence(bgColor);
@@ -110,14 +104,21 @@ public partial class VBarControl : BarControl
                 }
 
                 float stringWidth = cellSize * 1.1f * fontSizeModifier;
+                int newFontSize = Mathf.RoundToInt((fontSize * _fontSizeModifier));
+                
+                if (newFontSize <= 0)
+                    newFontSize = 1;
 
                 // calculation for moving fonts across bar
                 // extra calculation at end for pushin double digits
                 float textStartV = canvasPos + cellSize / 3.5f * _ratio;
 
+                //GD.Print($"Draw String  font choice:{fontChoice}, Position: {new Vector2(stringMargin - stringWidth, textStartV)}," +
+                //    $" String: {newString}, Width: {stringWidth}, Size: {Mathf.CeilToInt(fontSize * _fontSizeModifier)}");
+
                 DrawString(fontChoice, new Vector2(stringMargin - stringWidth, textStartV),
                     newString, HorizontalAlignment.Center,
-                    stringWidth, Mathf.RoundToInt(fontSize * _fontSizeModifier), fontColor);
+                    stringWidth, newFontSize, fontColor);
 
                 // update margin to push next numbers
                 // extra length added to pseudoFontSize due to changes in width size
@@ -130,7 +131,7 @@ public partial class VBarControl : BarControl
         }
     }
 
-    protected override Array<R_BarHint> GetBarHints()
+    protected override Array<RC_NotchHint> GetNotchHints()
     {
         return NonogramPuzzleManager.Instance.v_hints;
     }
@@ -148,5 +149,14 @@ public partial class VBarControl : BarControl
             xStartPos = Size.X;
 
         return xStartPos;
+    }
+
+    protected override void DrawWholeBarBackground(float startPos)
+    {
+        // draw background of entire bar. This is to prevent 
+        DrawRect(
+            new Rect2(Vector2.Zero, new Vector2(startPos, GridCreation.Instance.cellCount.Y * GridCreation.Instance.cellSize)),
+            BGColor
+            );
     }
 }

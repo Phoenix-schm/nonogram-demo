@@ -24,12 +24,13 @@ public partial class BarSizeControl : PanelContainer
     bool isValidConsequence;
 
     public static float defaultFontSizeModifier = .8f;
-    int minimumFontSize = 12;
-
+    int minimumFontSize = 26;
 
     public async override void _Ready()
     {
-        await ToSignal(GetTree(), StaticStringRef.s_processFrame);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+
+        GetViewport().Connect(StaticStringRef.s_size_changed, Callable.From(OnSizeChanged));
 
         cellCount = NonogramPuzzleManager.CellCount;
         h_longestHint = GetLargetBarHintNotch(NonogramPuzzleManager.Instance.h_hints);
@@ -38,49 +39,46 @@ public partial class BarSizeControl : PanelContainer
         UpdateMinSizeWithConsequence();
     }
 
+    public override void _Notification(int what)
+    {
+        if (what == NotificationResized)
+        {
+            // Forces consequence to initialize properly at ready
+            UpdateMinSizeWithConsequence();
+        }
+    }
+
     private async void UpdateMinSizeWithConsequence()
     {
-        await ToSignal(GetTree(), StaticStringRef.s_processFrame);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 
         viewportSize = GetParentAreaSize();
         gridViewportSize = GridCreation.Instance.GetViewportRect().Size;
 
-        defaultBarRatio = viewportSize / 4;
-        secondaryBarRatio = viewportSize / 3;
-
         // How much room is left for bars to fill up
         // will be used to set minimum bar size control
         Consequence = viewportSize - gridViewportSize;
+
+        defaultBarRatio = viewportSize / 4;
+        secondaryBarRatio = viewportSize / 3;
 
         bool canSetMinimum = false;
 
         while (!canSetMinimum)
         {
             gridViewportSize = viewportSize - Consequence;
-            // if room for improvement has negative numbers,
-            //      then numbers will be going off screen
-
-            // if already hitting defaultBarRatio,
-            //      adjust fontsizemodifer to make font smaller.
-            //      Recalculate consequence
-
-            // if hitting minimum allowed font size,
-            //      use secondaryBarRatio and adjust for that. recalculate
-
-            // if haven't hit bar ratio, make consquence bigger and recalculate
-
-            // if roomForImprovement  > (font_size - font_size * 1.1) <- calc for slight offset from top/left
-            //      there's still room for improvement
-            //      shift consequence with roomForImprovement and recalculate
-
-
-
             canSetMinimum = UpdateConsequence();
         }
 
-        OnBarControlInitialized?.Invoke();
         // set minimum consequence
         CustomMinimumSize = Consequence;
+        OnBarControlInitialized?.Invoke();
+        useSecondaryBarRatio = false;
+
+        //GameLogger.Info(cellSize);
+
+        //GameLogger.Info($"Consequence: {Consequence}");
+        //GameLogger.Info($"Grid Size: {gridViewportSize}");
     }
 
     bool useSecondaryBarRatio;
@@ -95,38 +93,39 @@ public partial class BarSizeControl : PanelContainer
         float pseudoFontSize = cellSize * defaultFontSizeModifier;
 
         // Calculate length/height of bars based on font size
-        float calcHLength = GetNotchHBarLength(h_longestHint, pseudoFontSize, Mathf.RoundToInt(pseudoFontSize / 4));
-        float calcVLength = GetNotchVBarLength(v_longestHint, pseudoFontSize, Mathf.RoundToInt(pseudoFontSize / 4));
+        float calcHLength = GetNotchHBarLength(h_longestHint, pseudoFontSize, Mathf.RoundToInt(pseudoFontSize));
+        float calcVLength = GetNotchVBarLength(v_longestHint, pseudoFontSize, Mathf.RoundToInt(pseudoFontSize * 1.1f));
 
         Vector2 calcLongestNotches = new Vector2(calcVLength, calcHLength);
 
         // Calculate how much room is left between consequence and longest notches
         Vector2 roomForImprovement = Consequence - calcLongestNotches;
-        roomForImprovement = new Vector2(Mathf.CeilToInt(roomForImprovement.X), Mathf.CeilToInt(roomForImprovement.Y));
 
         // longest notches are off screen and must adjust font or consequence
         if (roomForImprovement.X < 0 || roomForImprovement.Y < 0)
         {
             // if Consequence is taking up 1/4th screen already
-            if (Consequence.IsEqualApprox(defaultBarRatio) && !useSecondaryBarRatio || (Consequence > defaultBarRatio) && (Consequence < secondaryBarRatio) && !useSecondaryBarRatio)
+            if ((Consequence.IsEqualApprox(defaultBarRatio) || Consequence.X >= defaultBarRatio.X || Consequence.Y >= defaultBarRatio.Y) && !useSecondaryBarRatio) //&& !useSecondaryBarRatio || (Consequence > defaultBarRatio) && (Consequence < secondaryBarRatio) && !useSecondaryBarRatio)
             {
                 // Try modifying font size
                 defaultFontSizeModifier -= .05f;
                 returnValid = false;
 
                 // if font size too small, try to use secondary bar ratio
-                if (cellSize *  defaultFontSizeModifier < minimumFontSize)
+                if ((cellSize * defaultFontSizeModifier) < minimumFontSize)
                 {
                     defaultFontSizeModifier = .8f;
+                    GameLogger.Warning("Using secondary ratio");
                     useSecondaryBarRatio = true;
+                    //return true;
                 }
             }
-            else if (useSecondaryBarRatio && (Consequence >= secondaryBarRatio))
+            else if (useSecondaryBarRatio && (Consequence.IsEqualApprox(secondaryBarRatio) || Consequence.X >= secondaryBarRatio.X || Consequence.Y >= secondaryBarRatio.Y))
             {
-                defaultFontSizeModifier -= .05f;
+                defaultFontSizeModifier -= .025f;
                 returnValid = false;
 
-                if (cellSize * defaultFontSizeModifier < minimumFontSize)
+                if ((cellSize * defaultFontSizeModifier) < minimumFontSize)
                 {
                     defaultFontSizeModifier = .8f;
                     GameLogger.Warning("Could not get appropriate size for font");
@@ -158,33 +157,28 @@ public partial class BarSizeControl : PanelContainer
         return returnValid;
     }
 
-
-    public override void _Notification(int what)
+    /// <summary> 
+    /// level of abstraction for accessing async function through signal
+    /// </summary>
+    private void OnSizeChanged()
     {
-        if (what == NotificationResized)
-        {
-            UpdateMinSizeWithConsequence();
-        }
+        UpdateMinSizeWithConsequence();
     }
 
     private bool IsConsequenceLargerThanBarRatio(Vector2 barRatio)
     {
         bool isLarger = false;
         if (Consequence.X > barRatio.X)
-        {
             isLarger = true;
-        }
 
         if (Consequence.Y > barRatio.Y)
-        {
             isLarger = true;
-        }
 
         return isLarger;
 
     }
 
-    public static int GetLargetBarHintNotch(Array<R_BarHint> barHint)
+    public static int GetLargetBarHintNotch(Array<RC_NotchHint> barHint)
     {
         int largetInt = -1;
         int index = -1;
@@ -225,13 +219,14 @@ public partial class BarSizeControl : PanelContainer
             return shortestSize / cellCount.Y;
     }
 
-    private float GetNotchHBarLength(int notchSize,float fontSize, float fontDivide)
+    private float GetNotchHBarLength(int longestNotchSize,float fontSize, float fontDivide)
     {
-        return (notchSize * fontSize) + fontDivide;
+        return (longestNotchSize * fontSize) + fontDivide;
     }
 
     private float GetNotchVBarLength(int notchSize, float  fontSize, float fontDivide)
     {
-        return (notchSize * fontSize) - fontDivide;
+        // arbitrary magic number to push vBarLength further from side
+        return (notchSize * fontSize) + fontDivide * 1.9f;
     }
 }

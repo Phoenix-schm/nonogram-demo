@@ -8,8 +8,9 @@ namespace Features.NonogramGridCreation.BarGeneration;
 /// Responsible for storing information of the bar hints.
 /// Such as the numbers, colors, and how much of the bar has been completed
 /// </summary>
+
 [Tool]
-public partial class R_BarHint : RefCounted
+public partial class RC_NotchHint : RefCounted
 {
     public Array<int> numberList = new();           // list of numbers in a row/column
     public Array<Color> colorList = new();          // list of colors coinciding with the numbersList
