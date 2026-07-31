@@ -2,8 +2,16 @@
 
 [ext_resource type="PackedScene" uid="uid://h7ty2fpw4ts6" path="res://Features/Nonogram Grid Creation/nonogram_puzzle_manager.tscn" id="1_vur81"]
 [ext_resource type="Script" uid="uid://ciapqqib3p53x" path="res://Features/Nonogram Art Checker/CheckerSettings.cs" id="2_cwslg"]
+[ext_resource type="Image" uid="uid://4ckoyo0heqcp" path="res://Assets/Level Images/Pride/Pride_Heart2.png" id="2_g5cyb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vur81"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g3b8u"]
+bg_color = Color(0.26, 0.26, 0.26, 0.85882354)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
 
 [sub_resource type="LabelSettings" id="LabelSettings_ptdpq"]
 font_size = 50
@@ -54,14 +62,23 @@ theme_override_constants/margin_bottom = 30
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
+Level = ExtResource("2_g5cyb")
 
-[node name="Settings" type="PanelContainer" parent="BG/HBoxContainer" unique_id=1625825809 node_paths=PackedStringArray("LevelName", "GridSize", "FileButton")]
+[node name="Settings" type="MarginContainer" parent="BG/HBoxContainer" unique_id=441985603 node_paths=PackedStringArray("LevelName", "GridSize", "ColorGrid")]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 script = ExtResource("2_cwslg")
 LevelName = NodePath("MarginContainer/VBoxContainer/LevelNameLabel2")
 GridSize = NodePath("MarginContainer/VBoxContainer/GridSizeLabel")
-FileButton = NodePath("MarginContainer/VBoxContainer/RuleContainer2/Button")
+ColorGrid = NodePath("MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer")
+
+[node name="SettingsBG" type="PanelContainer" parent="BG/HBoxContainer/Settings" unique_id=1362958872]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_g3b8u")
 
 [node name="MarginContainer" type="MarginContainer" parent="BG/HBoxContainer/Settings" unique_id=397605836]
 layout_mode = 2
@@ -121,11 +138,12 @@ theme_override_constants/separation = 10
 theme_override_styles/separator = SubResource("StyleBoxLine_g3b8u")
 
 [node name="LevelNameLabel2" type="Label" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer" unique_id=1031512367]
-custom_minimum_size = Vector2(0, 95)
+custom_minimum_size = Vector2(10, 95)
 layout_mode = 2
 text = "Title: ????"
 label_settings = SubResource("LabelSettings_g3b8u")
 vertical_alignment = 1
+autowrap_mode = 1
 
 [node name="HSeparator3" type="HSeparator" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer" unique_id=302825173]
 layout_mode = 2
@@ -165,64 +183,6 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 17
 columns = 4
-
-[node name="Button" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=981525128]
-custom_minimum_size = Vector2(0, 150)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Button2" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=179265304]
-custom_minimum_size = Vector2(0, 150)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Button3" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=1346064410]
-custom_minimum_size = Vector2(0, 150)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Button4" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=1961838368]
-custom_minimum_size = Vector2(0, 150)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Button5" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=741795536]
-custom_minimum_size = Vector2(0, 150)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Button6" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=587811055]
-custom_minimum_size = Vector2(0, 150)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Button7" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=1639613563]
-custom_minimum_size = Vector2(0, 150)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Button8" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=658090051]
-custom_minimum_size = Vector2(0, 150)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Button9" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=624843537]
-custom_minimum_size = Vector2(0, 150)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Button10" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=1295480528]
-custom_minimum_size = Vector2(0, 150)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Button11" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=392319405]
-custom_minimum_size = Vector2(0, 150)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Button12" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=1779744926]
-custom_minimum_size = Vector2(0, 150)
-layout_mode = 2
-size_flags_horizontal = 3

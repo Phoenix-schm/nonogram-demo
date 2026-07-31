@@ -25,9 +25,9 @@ public partial class NonogramPuzzleManager : PanelContainer
 
     // Black and White are the two colors in a monochrome grid
     // more than that and it's a color grid
-    public bool IsColorful { get { return uniqueColorList.Count > 2; } }
+    public bool IsColorful { get { return UniqueColorList.Count > 2; } }
 
-    private List<Color> uniqueColorList = [Colors.White];   // Default 0 index to White
+    public List<Color> UniqueColorList { get; private set; } = [Colors.White];   // Default 0 index to White
     public Array<int> FullColorGrid { get; private set; } = new();
 
     public override void _Ready()
@@ -38,7 +38,7 @@ public partial class NonogramPuzzleManager : PanelContainer
             return;
         }
 
-        uniqueColorList = [Colors.White];
+        UniqueColorList = [Colors.White];
         FullColorGrid = new();
 
         h_barHint = new();
@@ -120,10 +120,10 @@ public partial class NonogramPuzzleManager : PanelContainer
     /// <param name="checkColor"></param>
     private void CheckAddColor(ref RC_NotchHint notchHint, Color checkColor)
     {
-        if (!uniqueColorList.Contains(checkColor))
-            uniqueColorList.Add(checkColor);
+        if (!UniqueColorList.Contains(checkColor))
+            UniqueColorList.Add(checkColor);
 
-        int index = uniqueColorList.IndexOf(checkColor);
+        int index = UniqueColorList.IndexOf(checkColor);
         notchHint.colorList.Add(index);
     }
 
@@ -141,8 +141,8 @@ public partial class NonogramPuzzleManager : PanelContainer
             Color curColor = Level.GetPixelv(index);
 
             int colorIndex = 0; // white is at zero index
-            if (uniqueColorList.Contains(curColor))
-                colorIndex = uniqueColorList.IndexOf(curColor);
+            if (UniqueColorList.Contains(curColor))
+                colorIndex = UniqueColorList.IndexOf(curColor);
 
             FullColorGrid.Add(colorIndex);
         }
@@ -150,7 +150,7 @@ public partial class NonogramPuzzleManager : PanelContainer
 
     public Color GetColorFromList(int colorIndex)
     {
-        return uniqueColorList[colorIndex];
+        return UniqueColorList[colorIndex];
     }
 
     public override void _EnterTree()

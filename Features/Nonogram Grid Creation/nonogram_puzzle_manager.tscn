@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://711wt0clpjm5" path="res://Features/Nonogram Grid Creation/GridBackgroundColorGeneration.cs" id="1_24pnn"]
 [ext_resource type="Script" uid="uid://c7upej0i7ejjp" path="res://Features/Nonogram Grid Creation/GridCreation.cs" id="1_850oj"]
 [ext_resource type="Script" uid="uid://b3q70f8mg1wbc" path="res://Features/Nonogram Grid Creation/NonogramPuzzleManager.cs" id="1_laob2"]
-[ext_resource type="Image" uid="uid://blasmb4653gad" path="res://Assets/Level Images/NonogramTest_Color/Dragon5.png" id="2_rt4c0"]
+[ext_resource type="Image" uid="uid://m27rt0tiwwph" path="res://Assets/Level Images/NonogramTest_Color/Dragon_NoBG.png" id="2_saru1"]
 [ext_resource type="FontVariation" uid="uid://dl4a8h80xgxxe" path="res://Assets/Fonts/Comfortaa/comfortaa_medium_variation_embolden26.tres" id="3_q6bt6"]
 [ext_resource type="Script" uid="uid://c7adxpdojcf33" path="res://Features/Nonogram Grid Creation/BarSizeControl.cs" id="3_rt4c0"]
 [ext_resource type="Script" uid="uid://ces8jkraar1ks" path="res://Features/Nonogram Grid Creation/BarControl/HBarControl.cs" id="3_v7fx8"]
@@ -36,7 +36,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_amml3")
 script = ExtResource("1_laob2")
-Level = ExtResource("2_rt4c0")
+Level = ExtResource("2_saru1")
 
 [node name="GridContainer" type="GridContainer" parent="." unique_id=1962825199]
 layout_mode = 2
@@ -55,8 +55,8 @@ layout_mode = 2
 theme = SubResource("Theme_4hb5p")
 theme_override_styles/panel = SubResource("StyleBoxEmpty_asftc")
 script = ExtResource("3_v7fx8")
-NotchColor = Color(0.01716813, 0.19386253, 0.18229502, 1)
-AltNotchColor = Color(0.01716813, 0.19386253, 0.18229502, 1)
+NotchColor = Color(0.79050004, 0.85, 0.84305835, 1)
+AltNotchColor = Color(0.7921569, 0.8509804, 0.84313726, 1)
 SelectedNotchColor = Color(0.21887222, 0.4901762, 0.50498164, 1)
 BGColor = Color(0.86399996, 0.96, 0.9568, 0)
 AltFont = ExtResource("5_qd3ie")
@@ -66,8 +66,8 @@ layout_mode = 2
 theme = SubResource("Theme_4hb5p")
 theme_override_styles/panel = SubResource("StyleBoxEmpty_r6ddm")
 script = ExtResource("6_qd3ie")
-NotchColor = Color(0.01716813, 0.19386253, 0.18229502, 1)
-AltNotchColor = Color(0.01716813, 0.19386253, 0.18229502, 1)
+NotchColor = Color(0.79050004, 0.85, 0.84305835, 1)
+AltNotchColor = Color(0.7921569, 0.8509804, 0.84313726, 1)
 SelectedNotchColor = Color(0.21887222, 0.4901762, 0.50498164, 1)
 BGColor = Color(0.86399996, 0.96, 0.9568, 0)
 AltFont = ExtResource("5_qd3ie")
