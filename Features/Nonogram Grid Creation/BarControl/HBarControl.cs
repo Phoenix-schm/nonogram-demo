@@ -89,7 +89,7 @@ public partial class HBarControl : BarControl
                 }
 
                 // if using a colored grid
-                if (NonogramPuzzleManager.Instance.isColorful)
+                if (NonogramPuzzleManager.Instance.IsColorful)
                 {
                     Color blockBGColor;
                     if (newString == "0")
@@ -98,7 +98,7 @@ public partial class HBarControl : BarControl
                         blockBGColor.A = 0;
                     }
                     else
-                        blockBGColor = barHint[i].colorList[curNumber];
+                        blockBGColor = NonogramPuzzleManager.Instance.GetColorFromList(barHint[i].colorList[curNumber]);
 
                     // modify font color to contrast with bg color
                     fontColor = CheckLuminence(blockBGColor);

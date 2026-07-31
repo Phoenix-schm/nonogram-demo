@@ -141,7 +141,6 @@ public abstract partial class BarControl : Control
 
         return newColor;
     }
-
     protected abstract int GetNotchCount();
 
     protected abstract Array<RC_NotchHint> GetNotchHints();

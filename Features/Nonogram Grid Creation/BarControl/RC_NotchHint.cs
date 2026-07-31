@@ -12,8 +12,9 @@ namespace Features.NonogramGridCreation.BarGeneration;
 [Tool]
 public partial class RC_NotchHint : RefCounted
 {
-    public Array<int> numberList = new();    // list of numbers in a row/column
-    public Array<Color> colorList = new();   // list of colors coinciding with the numbersList
+    public Array<int> numberList = new();  // list of numbers in a row/column
+    public Array<int> colorList = new();   // list of colors associated with a color from NonogramPuzzleManager.uniqueColorList.
+                                           //   Coincides with a number in numberList
 
     public Array<int> correctNumbersList = new();   // a list of 0's and 1's representing if a player has filled out a row/column correctly
                                                     //      0 indicates "incorrect". 1 indicates "correct"

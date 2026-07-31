@@ -4,6 +4,8 @@ using Godot;
 using Godot.Collections;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Features.NonogramGridCreation;
 
@@ -21,9 +23,12 @@ public partial class NonogramPuzzleManager : PanelContainer
     public Array<RC_NotchHint> h_barHint = new();
     public Array<RC_NotchHint> v_barHint = new();
 
-    public bool isColorful;
+    // Black and White are the two colors in a monochrome grid
+    // more than that and it's a color grid
+    public bool IsColorful { get { return uniqueColorList.Count > 2; } }
 
-    public HashSet<Color> uniqueColorList = new();
+    private List<Color> uniqueColorList = [Colors.White];   // Default 0 index to White
+    public Array<int> FullColorGrid { get; private set; } = new();
 
     public override void _Ready()
     {
@@ -33,7 +38,9 @@ public partial class NonogramPuzzleManager : PanelContainer
             return;
         }
 
-        uniqueColorList = new();
+        uniqueColorList = [Colors.White];
+        FullColorGrid = new();
+
         h_barHint = new();
         v_barHint = new();
 
@@ -41,9 +48,10 @@ public partial class NonogramPuzzleManager : PanelContainer
         for (int x = 0; x < CellCount.X; x++)
             h_barHint.Add(GetNotchHint(x, CellCount.Y, false));
         for (int y = 0; y < CellCount.Y; y++)
+        {
             v_barHint.Add(GetNotchHint(y, CellCount.X, true));
-
-        isColorful = uniqueColorList.Count > 1;
+            CreateGridFromColorList(y, CellCount.X, true);
+        }
 
         GridCreation.Instance.cellCount = CellCount;
         GridCreation.Instance.QueueRedraw();
@@ -69,8 +77,7 @@ public partial class NonogramPuzzleManager : PanelContainer
             {
                 notchHint.numberList.Add(curAmount);
                 curAmount = 0;
-                uniqueColorList.Add(prevColor);
-                notchHint.colorList.Add(prevColor);
+                CheckAddColor(ref notchHint, prevColor);
                 continue;
             }
             else if (curColor == Colors.White || curColor.A < 1) // move on
@@ -81,8 +88,7 @@ public partial class NonogramPuzzleManager : PanelContainer
             {
                 notchHint.numberList.Add(curAmount);
                 curAmount = 0;
-                uniqueColorList.Add(prevColor);
-                notchHint.colorList.Add(prevColor);
+                CheckAddColor(ref notchHint, prevColor);
             }
 
             // Add to count when have the same color
@@ -92,8 +98,7 @@ public partial class NonogramPuzzleManager : PanelContainer
             {
                 notchHint.numberList.Add(curAmount);
                 curAmount = 0;
-                uniqueColorList.Add(curColor);
-                notchHint.colorList.Add(curColor);
+                CheckAddColor(ref notchHint, curColor);
             }
             prevColor = curColor;
         }
@@ -102,11 +107,50 @@ public partial class NonogramPuzzleManager : PanelContainer
         if (curAmount > 0)
         {
             notchHint.numberList.Add(curAmount);
-            uniqueColorList.Add(curColor);
-            notchHint.colorList.Add(curColor);
+            CheckAddColor(ref notchHint, curColor);
         }
 
         return notchHint;
+    }
+
+    /// <summary>
+    /// Adds to the unique color list if the color is a new one, and adds it's specific index to notchHint
+    /// </summary>
+    /// <param name="notchHint"></param>
+    /// <param name="checkColor"></param>
+    private void CheckAddColor(ref RC_NotchHint notchHint, Color checkColor)
+    {
+        if (!uniqueColorList.Contains(checkColor))
+            uniqueColorList.Add(checkColor);
+
+        int index = uniqueColorList.IndexOf(checkColor);
+        notchHint.colorList.Add(index);
+    }
+
+    /// <summary>
+    /// Creates a version of the grid made up of only numbers associated their respective uniqueColorList index
+    /// </summary>
+    /// <param name="notch"></param>
+    /// <param name="altNotch"></param>
+    /// <param name="isVertical"></param>
+    private void CreateGridFromColorList(int notch, int altNotch, bool isVertical)
+    {
+        for (int cell = 0; cell < altNotch;  cell++)
+        {
+            Vector2I index = isVertical ? new(cell, notch) : new(notch, cell);
+            Color curColor = Level.GetPixelv(index);
+
+            int colorIndex = 0; // white is at zero index
+            if (uniqueColorList.Contains(curColor))
+                colorIndex = uniqueColorList.IndexOf(curColor);
+
+            FullColorGrid.Add(colorIndex);
+        }
+    }
+
+    public Color GetColorFromList(int colorIndex)
+    {
+        return uniqueColorList[colorIndex];
     }
 
     public override void _EnterTree()

@@ -39,12 +39,13 @@ public partial class PuzzleSolution : PanelContainer
         {
             for (int y = 0; y < cellCount.Y; y++)
             {
-                Color cellColor = NonogramPuzzleManager.Instance.Level.GetPixel(x, y);
+                int fauxCurIndex = x + (y * cellCount.X); // translate Vector2I into flattened index
+                int colorIndex = NonogramPuzzleManager.Instance.FullColorGrid[fauxCurIndex];
 
-                if (cellColor == Colors.Black && !NonogramPuzzleManager.Instance.isColorful)
-                    cellColor = altCellColor;
-                if (cellColor == Colors.White || cellColor.A < 1)
+                if (colorIndex == 0)    // if it's white
                     continue;
+
+                Color cellColor = NonogramPuzzleManager.Instance.GetColorFromList(colorIndex);
 
                 DrawRect(
                     new Rect2(new Vector2(x * cellSize, y * cellSize), new Vector2(cellSize, cellSize)),
