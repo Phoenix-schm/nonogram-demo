@@ -57,7 +57,7 @@ public partial class HBarControl : BarControl
 
         // how far numbers start from
         float fontDivide = pseudoFontSize / 4;    // arbitrary magic number. used for shifting numbers from start
-        float blockDivide = pseudoFontSize / 6;  // arbitrary magic number. used for shifting between numbers
+        float blockDivide = pseudoFontSize / 10;  // arbitrary magic number. used for shifting between numbers
 
         for (int i = 0; i < steps; i++)
         {
@@ -91,24 +91,24 @@ public partial class HBarControl : BarControl
                 // if using a colored grid
                 if (NonogramPuzzleManager.Instance.isColorful)
                 {
-                    Color bgColor;
+                    Color blockBGColor;
                     if (newString == "0")
                     {
-                        bgColor = i % 2 == 0 ? NotchColor : AltNotchColor;
-                        bgColor.A = 0;
+                        blockBGColor = i % 2 == 0 ? NotchColor : AltNotchColor;
+                        blockBGColor.A = 0;
                     }
                     else
-                        bgColor = barHint[i].colorList[curNumber];
+                        blockBGColor = barHint[i].colorList[curNumber];
 
                     // modify font color to contrast with bg color
-                    fontColor = CheckLuminence(bgColor);
+                    fontColor = CheckLuminence(blockBGColor);
 
                     
                     DrawLine(
                         new Vector2(canvasPos, blockMargin),
                         new Vector2(canvasPos, blockMargin - pseudoFontSize),
-                        bgColor,
-                        notchThickness * .85f
+                        blockBGColor,
+                        notchThickness * .9f
                         );
                 }
 
@@ -116,7 +116,6 @@ public partial class HBarControl : BarControl
 
                 if (newFontSize <= 0)
                     newFontSize = 1;
-
 
                 // Calculation for moving fonts across bar
                 // Extra calculation at end for pushing digits to center

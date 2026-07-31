@@ -153,7 +153,7 @@ public partial class GridCreation : Container
         DrawSetTransform(Vector2.Zero, float.Pi / 2, Vector2.One);
 
         dividerAmount = Mathf.FloorToInt(cellCount.Y / DividerCount);
-        Vector2[] dividersPos = new Vector2[(dividerAmount + 1) * 2];
+        Vector2[] dividersPos = new Vector2[(dividerAmount + 1) * 2]; // offset by one for the additional line at the end of the grid
 
         iterator = 0;
         for (int y = 0; y < cellCount.Y + 1;)

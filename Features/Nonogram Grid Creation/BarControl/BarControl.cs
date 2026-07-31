@@ -62,7 +62,7 @@ public abstract partial class BarControl : Control
         // doesn't matter which part of scale, since will always be uniform scale changes
         float ratio = toCanvas.Scale.Y;
 
-        fontSizeModifier = BarSizeControl.defaultFontSizeModifier;
+        fontSizeModifier = BarSizeControl.fontSizeModifier;
 
         fontSize = Mathf.RoundToInt(cellSize * fontSizeModifier);   // font size cannot be float
         if (fontSize < 1)
@@ -121,7 +121,11 @@ public abstract partial class BarControl : Control
 
         return numArray;
     }
-
+    /// <summary>
+    /// Calculation for returning either black or whiteas the contrasting color of the bgColor
+    /// </summary>
+    /// <param name="_bgColor"></param>
+    /// <returns></returns>
     protected static Color CheckLuminence(Color _bgColor)
     {
         Color newColor;
@@ -130,7 +134,7 @@ public abstract partial class BarControl : Control
         float newB = .0722f * _bgColor.B;
 
         float luminence = newB + newG + newR;
-        if (luminence > Mathf.Sqrt(luminence))
+        if (luminence > Mathf.Sqrt(1.05f * .05f) - .05f)
             newColor = Colors.Black;
         else
             newColor = Colors.White;

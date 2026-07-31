@@ -48,23 +48,24 @@ public partial class VBarControl : BarControl
         canvasPos += (interval / 2) * _ratio;
 
         float pseudoFontSize = cellSize * fontSizeModifier * _ratio;
-        fontSize = Mathf.RoundToInt(cellSize);
+        fontSize = Mathf.RoundToInt(pseudoFontSize);
 
-        float blockDivide = pseudoFontSize / 5; // for shifting color blocks left
+        float blockDivide = pseudoFontSize / 10; // for shifting color blocks left
 
         for (int i = 0;  i < steps; i++)
         {
-            string[] splitString = CreateStringArrayFromNotchHint(i);
+            string[] stringArray = CreateStringArrayFromNotchHint(i);
 
             // how far from right numbers start from
             float stringMargin = startPos;
+            // the amount between color blocks
             float blockMargin = startPos - blockDivide;
 
             // list numbers in row in reverse order
-            for (int curNumber = splitString.Length - 1; curNumber >= 0; curNumber--)
+            for (int curNumber = stringArray.Length - 1; curNumber >= 0; curNumber--)
             {
                 // Get the number from string aray
-                string newString = splitString[curNumber];
+                string newString = stringArray[curNumber];
                 Color fontColor = MainFontColor;
 
                 FontVariation fontChoice = (FontVariation)GetThemeDefaultFont();
@@ -74,7 +75,7 @@ public partial class VBarControl : BarControl
                 if (newString.Length > 1)
                 {
                     fontChoice = AltFont;
-                    _fontSizeModifier *= .9f;
+                    _fontSizeModifier *= .95f;
 
                     if ((i + curNumber) % 2 == 0)
                         fontColor = AltFontColor1;
@@ -84,23 +85,23 @@ public partial class VBarControl : BarControl
 
                 if (NonogramPuzzleManager.Instance.isColorful)
                 {
-                    Color bgColor;
+                    Color blockBGColor;
                     if (newString == "0")
                     {
-                        bgColor = i % 2 == 0 ? NotchColor : AltNotchColor;
-                        bgColor.A = 0;
+                        blockBGColor = i % 2 == 0 ? NotchColor : AltNotchColor;
+                        blockBGColor.A = 0;
                     }
                     else
-                        bgColor = barHint[i].colorList[curNumber];
+                        blockBGColor = barHint[i].colorList[curNumber];
 
                     // modify font color to contrast with bg color
-                    fontColor = CheckLuminence(bgColor);
+                    fontColor = CheckLuminence(blockBGColor);
 
                     DrawLine(
-                        new Vector2(canvasPos, blockMargin),
-                        new Vector2(canvasPos, blockMargin - pseudoFontSize),
-                        bgColor,
-                        notchThickness * .85f
+                        new Vector2(blockMargin, canvasPos),
+                        new Vector2(blockMargin - pseudoFontSize * .94f, canvasPos),
+                        blockBGColor,
+                        notchThickness * .9f
                         );
                 }
 

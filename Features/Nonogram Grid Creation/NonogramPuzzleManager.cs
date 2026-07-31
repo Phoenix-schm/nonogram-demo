@@ -13,7 +13,7 @@ public partial class NonogramPuzzleManager : PanelContainer
     public static NonogramPuzzleManager Instance { get; private set; }
 
     [ExportCategory("Grid Generation")]
-    [Export] Image Level { get; set; }
+    [Export] public Image Level { get; set; }
 
     public static Vector2I CellCount { get; private set; }
 
@@ -65,7 +65,7 @@ public partial class NonogramPuzzleManager : PanelContainer
             curColor = Level.GetPixelv(index);
 
             // if there's a swap to white, but we have a count going, add number
-            if (curColor == Colors.White && curAmount > 0)
+            if ((curColor == Colors.White || curColor.A < 1) && curAmount > 0)
             {
                 notchHint.numberList.Add(curAmount);
                 curAmount = 0;
@@ -73,7 +73,7 @@ public partial class NonogramPuzzleManager : PanelContainer
                 notchHint.colorList.Add(prevColor);
                 continue;
             }
-            else if (curColor == Colors.White) // move on
+            else if (curColor == Colors.White || curColor.A < 1) // move on
                 continue;
 
             // if there's a color swap, and we have a count going
