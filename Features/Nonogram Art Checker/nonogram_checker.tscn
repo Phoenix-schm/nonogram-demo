@@ -1,0 +1,228 @@
+[gd_scene format=3 uid="uid://c7lao34qpt4vc"]
+
+[ext_resource type="PackedScene" uid="uid://h7ty2fpw4ts6" path="res://Features/Nonogram Grid Creation/nonogram_puzzle_manager.tscn" id="1_vur81"]
+[ext_resource type="Script" uid="uid://ciapqqib3p53x" path="res://Features/Nonogram Art Checker/CheckerSettings.cs" id="2_cwslg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vur81"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ptdpq"]
+font_size = 50
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g3b8u"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_g3b8u"]
+color = Color(1, 1, 1, 1)
+thickness = 6
+
+[sub_resource type="LabelSettings" id="LabelSettings_g3b8u"]
+font_size = 50
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_vur81"]
+color = Color(1, 1, 1, 1)
+thickness = 3
+
+[node name="NonogramChecker" type="Control" unique_id=570448874]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BG" type="PanelContainer" parent="." unique_id=498945872]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vur81")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BG" unique_id=818845837]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="BG/HBoxContainer" unique_id=1116418018]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="NonogramPuzzleManager" parent="BG/HBoxContainer/MarginContainer" unique_id=21713976 instance=ExtResource("1_vur81")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="Settings" type="PanelContainer" parent="BG/HBoxContainer" unique_id=1625825809 node_paths=PackedStringArray("LevelName", "GridSize", "FileButton")]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_cwslg")
+LevelName = NodePath("MarginContainer/VBoxContainer/LevelNameLabel2")
+GridSize = NodePath("MarginContainer/VBoxContainer/GridSizeLabel")
+FileButton = NodePath("MarginContainer/VBoxContainer/RuleContainer2/Button")
+
+[node name="MarginContainer" type="MarginContainer" parent="BG/HBoxContainer/Settings" unique_id=397605836]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BG/HBoxContainer/Settings/MarginContainer" unique_id=2114798393]
+layout_mode = 2
+
+[node name="RuleContainer" type="HBoxContainer" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer" unique_id=146159699]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/RuleContainer" unique_id=1524116673]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Rules"
+label_settings = SubResource("LabelSettings_ptdpq")
+
+[node name="VSeparator" type="VSeparator" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/RuleContainer" unique_id=1341129115]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_g3b8u")
+
+[node name="Button" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/RuleContainer" unique_id=1339326364]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 43
+alignment = 0
+
+[node name="HSeparator4" type="HSeparator" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer" unique_id=424137237]
+layout_mode = 2
+theme_override_constants/separation = 10
+theme_override_styles/separator = SubResource("StyleBoxLine_g3b8u")
+
+[node name="RuleContainer2" type="HBoxContainer" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer" unique_id=1782669935]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/RuleContainer2" unique_id=848986375]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "File:"
+label_settings = SubResource("LabelSettings_ptdpq")
+
+[node name="Button" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/RuleContainer2" unique_id=2064337651]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 43
+alignment = 0
+
+[node name="HSeparator5" type="HSeparator" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer" unique_id=1481434818]
+layout_mode = 2
+theme_override_constants/separation = 10
+theme_override_styles/separator = SubResource("StyleBoxLine_g3b8u")
+
+[node name="LevelNameLabel2" type="Label" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer" unique_id=1031512367]
+custom_minimum_size = Vector2(0, 95)
+layout_mode = 2
+text = "Title: ????"
+label_settings = SubResource("LabelSettings_g3b8u")
+vertical_alignment = 1
+
+[node name="HSeparator3" type="HSeparator" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer" unique_id=302825173]
+layout_mode = 2
+theme_override_constants/separation = 10
+theme_override_styles/separator = SubResource("StyleBoxLine_g3b8u")
+
+[node name="GridSizeLabel" type="Label" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer" unique_id=1596808313]
+custom_minimum_size = Vector2(0, 95)
+layout_mode = 2
+text = "Grid Size: ????"
+label_settings = SubResource("LabelSettings_g3b8u")
+vertical_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer" unique_id=1620620423]
+layout_mode = 2
+theme_override_constants/separation = 10
+theme_override_styles/separator = SubResource("StyleBoxLine_g3b8u")
+
+[node name="ColorListLabel" type="Label" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer" unique_id=981586197]
+custom_minimum_size = Vector2(0, 95)
+layout_mode = 2
+text = "Color List:"
+label_settings = SubResource("LabelSettings_g3b8u")
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer" unique_id=1117738907]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 10
+theme_override_styles/separator = SubResource("StyleBoxLine_vur81")
+
+[node name="ColorListScroll" type="ScrollContainer" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer" unique_id=1824611597]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ColorListContainer" type="GridContainer" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll" unique_id=619628601]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 4
+
+[node name="Button" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=981525128]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button2" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=179265304]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button3" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=1346064410]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button4" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=1961838368]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button5" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=741795536]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button6" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=587811055]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button7" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=1639613563]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button8" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=658090051]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button9" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=624843537]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button10" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=1295480528]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button11" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=392319405]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button12" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer" unique_id=1779744926]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3

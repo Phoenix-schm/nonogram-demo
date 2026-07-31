@@ -58,7 +58,7 @@ script = ExtResource("3_v7fx8")
 NotchColor = Color(0.01716813, 0.19386253, 0.18229502, 1)
 AltNotchColor = Color(0.01716813, 0.19386253, 0.18229502, 1)
 SelectedNotchColor = Color(0.21887222, 0.4901762, 0.50498164, 1)
-BGColor = Color(0.05490196, 0.39215687, 0.39215687, 1)
+BGColor = Color(0.86399996, 0.96, 0.9568, 0)
 AltFont = ExtResource("5_qd3ie")
 
 [node name="VBarControl" type="PanelContainer" parent="GridContainer" unique_id=1368487675]
@@ -69,7 +69,7 @@ script = ExtResource("6_qd3ie")
 NotchColor = Color(0.01716813, 0.19386253, 0.18229502, 1)
 AltNotchColor = Color(0.01716813, 0.19386253, 0.18229502, 1)
 SelectedNotchColor = Color(0.21887222, 0.4901762, 0.50498164, 1)
-BGColor = Color(0.05490196, 0.39215687, 0.39215687, 1)
+BGColor = Color(0.86399996, 0.96, 0.9568, 0)
 AltFont = ExtResource("5_qd3ie")
 
 [node name="GridViewport" type="SubViewportContainer" parent="GridContainer" unique_id=1049036735]
@@ -81,6 +81,7 @@ stretch = true
 mouse_target = true
 
 [node name="SubViewport" type="SubViewport" parent="GridContainer/GridViewport" unique_id=1209853025]
+transparent_bg = true
 handle_input_locally = false
 oversampling = false
 size = Vector2i(2204, 1196)

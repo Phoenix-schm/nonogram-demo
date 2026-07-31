@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=2304
 window/size/viewport_height=1296
+window/subwindows/embed_subwindows=false
 
 [dotnet]
 
@@ -65,4 +66,4 @@ project/assembly_name="NonogramDemo"
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-environment/defaults/default_clear_color=Color(0.2597, 0.53, 0.53, 1)
+environment/defaults/default_clear_color=Color(0.87128264, 0.964806, 0.96308905, 1)
