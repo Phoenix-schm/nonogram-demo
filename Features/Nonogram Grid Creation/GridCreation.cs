@@ -17,6 +17,11 @@ public partial class GridCreation : Container
     [Export] public Color MainLineColor { get; set; } = Colors.Black;
     [Export] public Color DividerLineColor { get; set; } = Colors.Black;
 
+    [Export(PropertyHint.Range, "0.01, 1, 0.01")]
+    public float MainLineWidthMult { get; set; } = .09f;
+    [Export(PropertyHint.Range, "0.01, 1, 0.01")]
+    public float DividerLineWidthMult { get; set; } = .185f;
+
 
     public Vector2I cellCount;
     public Vector2 gridSize;
@@ -39,8 +44,8 @@ public partial class GridCreation : Container
 
         InitializeGrid();
 
-        mainLineWidth = cellSize * .09f;
-        dividerLineWidth = cellSize * .185f;
+        mainLineWidth = cellSize * MainLineWidthMult;
+        dividerLineWidth = cellSize * DividerLineWidthMult;
 
         DrawGrid();
 
@@ -94,7 +99,7 @@ public partial class GridCreation : Container
 
     private void DrawMainGridLines(Color lineColor, float lineWidth)
     {
-        Vector2[] vertLines = new Vector2[cellCount.X * 2]; // line positions
+        Vector2[] vertLines = new Vector2[(cellCount.X) * 2]; // line positions
 
         int iterator = 0;
         for (int x = 0; x < cellCount.X;)
@@ -137,17 +142,24 @@ public partial class GridCreation : Container
         Vector2[] mainsPos = new Vector2[(dividerAmount + 1) * 2];
 
         int iterator = 0;
-        for (int x = 0; x < cellCount.X + 1;)
+        for (int x = 0; x < cellCount.X;)
         {
-            if (x == cellCount.X || (x % DividerCount) == 0)
+            if ((x % DividerCount) == 0)
             {
-                mainsPos[iterator++] = new Vector2(x * cellSize, 0);
-                mainsPos[iterator++] = new Vector2(x * cellSize, cellCount.Y * cellSize);
+                mainsPos[iterator++] = new Vector2(x * cellSize, 0);    // Start
+                mainsPos[iterator++] = new Vector2(x * cellSize, cellCount.Y * cellSize);  // end
             }
             x++;
         }
 
         DrawMultiline(mainsPos, lineColor, lineWidth);
+
+        // Additional line due to strange behavior of using just lineWidth.
+        // last x line is somehow showing full line width instead of half like the rest of the last lines.
+        DrawLine(
+            new Vector2(cellCount.X * cellSize, 0), 
+            new Vector2(cellCount.X *cellSize, cellCount.Y * cellSize),
+            lineColor, lineWidth / 2);
 
         // Rotate draw
         DrawSetTransform(Vector2.Zero, float.Pi / 2, Vector2.One);
@@ -160,8 +172,8 @@ public partial class GridCreation : Container
         {
             if (y == cellCount.Y || (y % DividerCount) == 0)
             {
-                dividersPos[iterator++] = new Vector2(y * cellSize, 0);
-                dividersPos[iterator++] = new Vector2(y * cellSize, -cellCount.X * cellSize);
+                dividersPos[iterator++] = new Vector2(y * cellSize, 0);     // start
+                dividersPos[iterator++] = new Vector2(y * cellSize, -cellCount.X * cellSize);  // end
             }
             y++;
         }

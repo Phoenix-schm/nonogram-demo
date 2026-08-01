@@ -57,7 +57,7 @@ public partial class HBarControl : BarControl
 
         // how far numbers start from
         float fontDivide = pseudoFontSize / 4;    // arbitrary magic number. used for shifting numbers from start
-        float blockDivide = pseudoFontSize / 10;  // arbitrary magic number. used for shifting between numbers
+        float blockDivide = pseudoFontSize / 10;  // arbitrary magic number. used for shifting color blocks to start just below number
 
         for (int i = 0; i < steps; i++)
         {
@@ -102,7 +102,6 @@ public partial class HBarControl : BarControl
 
                     // modify font color to contrast with bg color
                     fontColor = (blockBGColor.Luminance >= .5f) ? Colors.Black : Colors.White;
-
                     
                     DrawLine(
                         new Vector2(canvasPos, blockMargin),

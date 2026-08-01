@@ -120,7 +120,7 @@ public partial class NonogramPuzzleManager : PanelContainer
     /// <param name="checkColor"></param>
     private void CheckAddColor(ref RC_NotchHint notchHint, Color checkColor)
     {
-        if (!UniqueColorList.Contains(checkColor))
+        if (!UniqueColorList.Contains(checkColor)) // if this color wasn't added before
             UniqueColorList.Add(checkColor);
 
         int index = UniqueColorList.IndexOf(checkColor);
@@ -140,7 +140,7 @@ public partial class NonogramPuzzleManager : PanelContainer
             Vector2I index = isVertical ? new(cell, notch) : new(notch, cell);
             Color curColor = Level.GetPixelv(index);
 
-            int colorIndex = 0; // white is at zero index
+            int colorIndex = 0; // defaul to white at zero index
             if (UniqueColorList.Contains(curColor))
                 colorIndex = UniqueColorList.IndexOf(curColor);
 

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://711wt0clpjm5" path="res://Features/Nonogram Grid Creation/GridBackgroundColorGeneration.cs" id="1_24pnn"]
 [ext_resource type="Script" uid="uid://c7upej0i7ejjp" path="res://Features/Nonogram Grid Creation/GridCreation.cs" id="1_850oj"]
 [ext_resource type="Script" uid="uid://b3q70f8mg1wbc" path="res://Features/Nonogram Grid Creation/NonogramPuzzleManager.cs" id="1_laob2"]
-[ext_resource type="Image" uid="uid://r1kmb6v5su05" path="res://Assets/Level Images/Pride/Pride_Heart1.png" id="2_saru1"]
+[ext_resource type="Image" uid="uid://blasmb4653gad" path="res://Assets/Level Images/NonogramTest_Color/Dragon5.png" id="2_saru1"]
 [ext_resource type="FontVariation" uid="uid://dl4a8h80xgxxe" path="res://Assets/Fonts/Comfortaa/comfortaa_medium_variation_embolden26.tres" id="3_q6bt6"]
 [ext_resource type="Script" uid="uid://c7adxpdojcf33" path="res://Features/Nonogram Grid Creation/BarSizeControl.cs" id="3_rt4c0"]
 [ext_resource type="Script" uid="uid://ces8jkraar1ks" path="res://Features/Nonogram Grid Creation/BarControl/HBarControl.cs" id="3_v7fx8"]
@@ -112,7 +112,7 @@ script = ExtResource("9_saru1")
 ShowSolution = true
 AltCellColor = Color(0.679634, 0.54776525, 0.93463457, 1)
 
-[node name="GridCreation" type="PanelContainer" parent="GridContainer/GridViewport/SubViewport" unique_id=1898720980]
+[node name="GridLines" type="PanelContainer" parent="GridContainer/GridViewport/SubViewport" unique_id=1898720980]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -122,3 +122,4 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_q6bt6")
 script = ExtResource("1_850oj")
 DividerCount = 5
+DividerLineWidthMult = 0.5

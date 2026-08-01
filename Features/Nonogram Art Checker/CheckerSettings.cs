@@ -13,6 +13,7 @@ public partial class CheckerSettings : Control
 
     // turn color rects into PanelContainer scene with a button as a child.
     //      connect button signals to panel container
+    // force buttons to be square by making min x and y same
 
     public override void _Ready()
     {
