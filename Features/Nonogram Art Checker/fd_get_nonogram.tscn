@@ -1,6 +1,10 @@
 [gd_scene format=3 uid="uid://b1noe1mel0axl"]
 
-[node name="Node" type="Node" unique_id=1118706751]
+[ext_resource type="Script" uid="uid://dsg85ipn478jn" path="res://Features/Nonogram Art Checker/FdGetNonogram.cs" id="1_a4bok"]
+
+[node name="Node" type="Node" unique_id=1118706751 node_paths=PackedStringArray("fileDialog")]
+script = ExtResource("1_a4bok")
+fileDialog = NodePath("FD_GetNonogram")
 
 [node name="FD_GetNonogram" type="FileDialog" parent="." unique_id=1969056539]
 disable_3d = true

@@ -122,4 +122,4 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_q6bt6")
 script = ExtResource("1_850oj")
 DividerCount = 5
-DividerLineWidthMult = 0.5
+DividerLineWidthMult = 0.17

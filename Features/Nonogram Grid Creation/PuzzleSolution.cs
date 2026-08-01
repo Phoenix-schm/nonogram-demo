@@ -59,10 +59,12 @@ public partial class PuzzleSolution : PanelContainer
     public override void _EnterTree()
     {
         GridCreation.OnGridFinishedInitializing += QueueRedraw;
+        NonogramPuzzleManager.OnManualColorDictChanged += QueueRedraw;
     }
 
     public override void _ExitTree()
     {
         GridCreation.OnGridFinishedInitializing -= QueueRedraw;
+        NonogramPuzzleManager.OnManualColorDictChanged -= QueueRedraw;
     }
 }

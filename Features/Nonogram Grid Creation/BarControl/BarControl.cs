@@ -129,10 +129,12 @@ public abstract partial class BarControl : Control
     public override void _EnterTree()
     {
         GridCreation.OnGridFinishedInitializing += QueueRedraw;
+        NonogramPuzzleManager.OnManualColorDictChanged += QueueRedraw;
     }
 
     public override void _ExitTree()
     {
         GridCreation.OnGridFinishedInitializing -= QueueRedraw;
+        NonogramPuzzleManager.OnManualColorDictChanged -= QueueRedraw;
     }
 }

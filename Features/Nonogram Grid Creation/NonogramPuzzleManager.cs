@@ -5,13 +5,14 @@ using Godot.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Features.NonogramGridCreation;
 
 [Tool]
 public partial class NonogramPuzzleManager : PanelContainer
 {
+    public static event Action OnManualColorDictChanged;
+
     public static NonogramPuzzleManager Instance { get; private set; }
 
     [ExportCategory("Grid Generation")]
@@ -28,16 +29,29 @@ public partial class NonogramPuzzleManager : PanelContainer
     public bool IsColorful { get { return UniqueColorList.Count > 2; } }
 
     public List<Color> UniqueColorList { get; private set; } = [Colors.White];   // Default 0 index to White
+
+    public Godot.Collections.Dictionary<int, Color> ManualColorDict = new();
+
     public Array<int> FullColorGrid { get; private set; } = new();
 
     public override void _Ready()
     {
+        CreateNonogram(Level);
+    }
+
+    public void CreateNonogram(Image levelImage)
+    {
+        Level = levelImage;
+
         if (Level == null)
         {
             GameLogger.Error("Level image not initialized");
             return;
         }
 
+        CellCount = Level.GetSize();
+
+        ManualColorDict.Clear();
         UniqueColorList = [Colors.White];
         FullColorGrid = new();
 
@@ -124,6 +138,9 @@ public partial class NonogramPuzzleManager : PanelContainer
             UniqueColorList.Add(checkColor);
 
         int index = UniqueColorList.IndexOf(checkColor);
+        //ManualColorDict.Add(index, checkColor);
+        ManualColorDict[index] = checkColor;
+
         notchHint.colorList.Add(index);
     }
 
@@ -150,7 +167,21 @@ public partial class NonogramPuzzleManager : PanelContainer
 
     public Color GetColorFromList(int colorIndex)
     {
-        return UniqueColorList[colorIndex];
+        return ManualColorDict[colorIndex];
+    }
+
+    public void ResetManualColorList()
+    {
+        foreach (int index in ManualColorDict.Keys)
+        {
+            ManualColorDict[index] = UniqueColorList[index];
+        }
+    }
+
+    public void SetManualColorList(int index, Color newColor)
+    {
+        ManualColorDict[index] = newColor;
+        OnManualColorDictChanged?.Invoke();
     }
 
     public override void _EnterTree()
@@ -170,8 +201,6 @@ public partial class NonogramPuzzleManager : PanelContainer
             GameLogger.Error("Level image not initialized");
             return;
         }
-
-        CellCount = Level.GetSize();
 
         Instance = this;
     }

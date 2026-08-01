@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://h7ty2fpw4ts6" path="res://Features/Nonogram Grid Creation/nonogram_puzzle_manager.tscn" id="1_vur81"]
 [ext_resource type="Script" uid="uid://ciapqqib3p53x" path="res://Features/Nonogram Art Checker/CheckerSettings.cs" id="2_cwslg"]
-[ext_resource type="Image" uid="uid://bnykli7mc0h3k" path="res://Assets/Level Images/Pride/Pride_Flag2.png" id="2_g5cyb"]
+[ext_resource type="PackedScene" uid="uid://b1noe1mel0axl" path="res://Features/Nonogram Art Checker/fd_get_nonogram.tscn" id="3_g5cyb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vur81"]
 
@@ -62,9 +62,8 @@ theme_override_constants/margin_bottom = 30
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
-Level = ExtResource("2_g5cyb")
 
-[node name="Settings" type="MarginContainer" parent="BG/HBoxContainer" unique_id=441985603 node_paths=PackedStringArray("LevelName", "GridSize", "ColorGrid")]
+[node name="Settings" type="MarginContainer" parent="BG/HBoxContainer" unique_id=441985603 node_paths=PackedStringArray("LevelName", "GridSize", "ColorGrid", "FileSelect")]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 20
@@ -72,9 +71,11 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 script = ExtResource("2_cwslg")
+fileDialogScene = ExtResource("3_g5cyb")
 LevelName = NodePath("MarginContainer/VBoxContainer/LevelNameLabel2")
 GridSize = NodePath("MarginContainer/VBoxContainer/GridSizeLabel")
 ColorGrid = NodePath("MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer")
+FileSelect = NodePath("MarginContainer/VBoxContainer/RuleContainer2/Button")
 
 [node name="SettingsBG" type="PanelContainer" parent="BG/HBoxContainer/Settings" unique_id=1362958872]
 layout_mode = 2
@@ -186,3 +187,27 @@ size_flags_vertical = 3
 theme_override_constants/h_separation = 16
 theme_override_constants/v_separation = 17
 columns = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer" unique_id=1716992590]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/MarginContainer" unique_id=33834217]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="Button2" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=949314982]
+custom_minimum_size = Vector2(200, 140)
+layout_mode = 2
+theme_override_font_sizes/font_size = 49
+text = "Export"
+
+[node name="Button3" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=1311496127]
+custom_minimum_size = Vector2(200, 140)
+layout_mode = 2
+theme_override_font_sizes/font_size = 49
+text = "Reset"
