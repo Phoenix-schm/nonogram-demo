@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://h7ty2fpw4ts6" path="res://Features/Nonogram Grid Creation/nonogram_puzzle_manager.tscn" id="1_vur81"]
 [ext_resource type="Script" uid="uid://ciapqqib3p53x" path="res://Features/Nonogram Art Checker/CheckerSettings.cs" id="2_cwslg"]
-[ext_resource type="Image" uid="uid://4ckoyo0heqcp" path="res://Assets/Level Images/Pride/Pride_Heart2.png" id="2_g5cyb"]
+[ext_resource type="Image" uid="uid://bnykli7mc0h3k" path="res://Assets/Level Images/Pride/Pride_Flag2.png" id="2_g5cyb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vur81"]
 

@@ -53,7 +53,7 @@ public partial class HBarControl : BarControl
         // the font size as a float for smoother transitioning
         // font initialization
         float pseudoFontSize = (cellSize * fontSizeModifier) * _ratio;
-        fontSize = Mathf.RoundToInt(cellSize);
+        fontSize = Mathf.RoundToInt(pseudoFontSize);
 
         // how far numbers start from
         float fontDivide = pseudoFontSize / 4;    // arbitrary magic number. used for shifting numbers from start
@@ -79,7 +79,7 @@ public partial class HBarControl : BarControl
                 if (newString.Length > 1)
                 {
                     fontChoice = AltFont;
-                    _fontSizeModifier *= .9f;
+                    _fontSizeModifier *= .95f;
 
                     // change font color for better readability
                     if ((i + curNumber) % 2 == 0)
@@ -101,7 +101,7 @@ public partial class HBarControl : BarControl
                         blockBGColor = NonogramPuzzleManager.Instance.GetColorFromList(barHint[i].colorList[curNumber]);
 
                     // modify font color to contrast with bg color
-                    fontColor = CheckLuminence(blockBGColor);
+                    fontColor = (blockBGColor.Luminance >= .5f) ? Colors.Black : Colors.White;
 
                     
                     DrawLine(
@@ -117,15 +117,12 @@ public partial class HBarControl : BarControl
                 if (newFontSize <= 0)
                     newFontSize = 1;
 
-                // Calculation for moving fonts across bar
-                // Extra calculation at end for pushing digits to center
+                // Calculation for moving fonts left/right
                 float textStartH = canvasPos - cellSize / 2 * _ratio;
 
                 DrawString(fontChoice, new Vector2(textStartH, stringMargin),
                     newString, HorizontalAlignment.Center,
-                    cellSize * _ratio, newFontSize,
-                    fontColor
-                    );
+                    cellSize * _ratio, newFontSize, fontColor);
 
                 // Update margin to push numbers up
                 stringMargin -= pseudoFontSize;

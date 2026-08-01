@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://711wt0clpjm5" path="res://Features/Nonogram Grid Creation/GridBackgroundColorGeneration.cs" id="1_24pnn"]
 [ext_resource type="Script" uid="uid://c7upej0i7ejjp" path="res://Features/Nonogram Grid Creation/GridCreation.cs" id="1_850oj"]
 [ext_resource type="Script" uid="uid://b3q70f8mg1wbc" path="res://Features/Nonogram Grid Creation/NonogramPuzzleManager.cs" id="1_laob2"]
-[ext_resource type="Image" uid="uid://m27rt0tiwwph" path="res://Assets/Level Images/NonogramTest_Color/Dragon_NoBG.png" id="2_saru1"]
+[ext_resource type="Image" uid="uid://r1kmb6v5su05" path="res://Assets/Level Images/Pride/Pride_Heart1.png" id="2_saru1"]
 [ext_resource type="FontVariation" uid="uid://dl4a8h80xgxxe" path="res://Assets/Fonts/Comfortaa/comfortaa_medium_variation_embolden26.tres" id="3_q6bt6"]
 [ext_resource type="Script" uid="uid://c7adxpdojcf33" path="res://Features/Nonogram Grid Creation/BarSizeControl.cs" id="3_rt4c0"]
 [ext_resource type="Script" uid="uid://ces8jkraar1ks" path="res://Features/Nonogram Grid Creation/BarControl/HBarControl.cs" id="3_v7fx8"]

@@ -17,7 +17,7 @@ public partial class VBarControl : BarControl
 
         // the font size as a float for far smoother transitioning
         float pseudoFontSize = (cellSize * fontSizeModifier) * viewportScale;
-        float font_divide = fontSize / 4;   // the slight offset from the edge of the last number
+        float font_divide = pseudoFontSize * .1f;   // the slight offset from the edge of the last number
 
         int index = 0;
         int colorIndex = 0;
@@ -26,7 +26,7 @@ public partial class VBarControl : BarControl
             // Get number list based on current notch
             string[] splitString = CreateStringArrayFromNotchHint(i);
 
-            float calcNotchHeight = startPos - (splitString.Length * pseudoFontSize * 1.1f) - font_divide;
+            float calcNotchHeight = startPos - (splitString.Length * pseudoFontSize) - font_divide * 2;
 
             barVectors[index++] = new Vector2(startPos, canvasPos);
             barVectors[index++] = new Vector2(calcNotchHeight, canvasPos);
@@ -50,14 +50,13 @@ public partial class VBarControl : BarControl
         float pseudoFontSize = cellSize * fontSizeModifier * _ratio;
         fontSize = Mathf.RoundToInt(pseudoFontSize);
 
-        float blockDivide = pseudoFontSize / 10; // for shifting color blocks left
-
+        float blockDivide = pseudoFontSize * .1f; // for shifting color blocks left
         for (int i = 0;  i < steps; i++)
         {
             string[] stringArray = CreateStringArrayFromNotchHint(i);
 
             // how far from right numbers start from
-            float stringMargin = startPos;
+            float stringMargin = startPos - blockDivide;
             // the amount between color blocks
             float blockMargin = startPos - blockDivide;
 
@@ -95,28 +94,25 @@ public partial class VBarControl : BarControl
                         blockBGColor = NonogramPuzzleManager.Instance.GetColorFromList(barHint[i].colorList[curNumber]);
 
                     // modify font color to contrast with bg color
-                    fontColor = CheckLuminence(blockBGColor);
+                    fontColor = (blockBGColor.Luminance >= .5f) ? Colors.Black : Colors.White;
 
                     DrawLine(
-                        new Vector2(blockMargin, canvasPos),
-                        new Vector2(blockMargin - pseudoFontSize * .94f, canvasPos),
+                        new Vector2(blockMargin, canvasPos),    // start of line (right side)
+                        new Vector2(blockMargin - pseudoFontSize, canvasPos), // end of line (left side)
                         blockBGColor,
                         notchThickness * .9f
                         );
                 }
 
-                float stringWidth = cellSize * 1.1f * fontSizeModifier;
                 int newFontSize = Mathf.RoundToInt((fontSize * _fontSizeModifier));
                 
                 if (newFontSize <= 0)
                     newFontSize = 1;
 
-                // calculation for moving fonts across bar
-                // extra calculation at end for pushin double digits
+                // calculation for moving fonts downwards
                 float textStartV = canvasPos + cellSize / 3.5f * _ratio;
-
-                //GD.Print($"Draw String  font choice:{fontChoice}, Position: {new Vector2(stringMargin - stringWidth, textStartV)}," +
-                //    $" String: {newString}, Width: {stringWidth}, Size: {Mathf.CeilToInt(fontSize * _fontSizeModifier)}");
+                // width for centering text
+                float stringWidth = cellSize * _fontSizeModifier;
 
                 DrawString(fontChoice, new Vector2(stringMargin - stringWidth, textStartV),
                     newString, HorizontalAlignment.Center,
@@ -124,8 +120,8 @@ public partial class VBarControl : BarControl
 
                 // update margin to push next numbers
                 // extra length added to pseudoFontSize due to changes in width size
-                stringMargin -= (pseudoFontSize * 1.1f) * _ratio;
-                blockMargin -= pseudoFontSize * 1.1f * _ratio;
+                stringMargin -= pseudoFontSize * _ratio;
+                blockMargin -= pseudoFontSize * _ratio;
             }
 
             // add onto initial position

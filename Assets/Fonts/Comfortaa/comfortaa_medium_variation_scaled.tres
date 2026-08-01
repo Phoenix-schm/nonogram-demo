@@ -1,12 +1,13 @@
 [gd_resource type="FontVariation" format=3 uid="uid://ehlla2hth7nu"]
 
-[ext_resource type="FontFile" uid="uid://by230k84q6858" path="res://fonts/Comfortaa/Comfortaa-VariableFont_wght.ttf" id="1_dp2hm"]
+[ext_resource type="FontFile" uid="uid://by230k84q6858" path="res://Assets/Fonts/Comfortaa/Comfortaa-VariableFont_wght.ttf" id="1_dp2hm"]
 
 [resource]
 base_font = ExtResource("1_dp2hm")
 variation_opentype = {
 2003265652: 500
 }
-variation_embolden = 0.3
+variation_embolden = 0.2
+variation_transform = Transform2D(1, 0, 0, 1.1, 0, 0)
 spacing_glyph = -1
 baseline_offset = 0.01

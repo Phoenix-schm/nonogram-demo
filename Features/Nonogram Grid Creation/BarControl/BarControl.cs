@@ -121,26 +121,7 @@ public abstract partial class BarControl : Control
 
         return numArray;
     }
-    /// <summary>
-    /// Calculation for returning either black or whiteas the contrasting color of the bgColor
-    /// </summary>
-    /// <param name="_bgColor"></param>
-    /// <returns></returns>
-    protected static Color CheckLuminence(Color _bgColor)
-    {
-        Color newColor;
-        float newR = .2126f * _bgColor.R;
-        float newG = .7152f * _bgColor.G;
-        float newB = .0722f * _bgColor.B;
 
-        float luminence = newB + newG + newR;
-        if (luminence > Mathf.Sqrt(1.05f * .05f) - .05f)
-            newColor = Colors.Black;
-        else
-            newColor = Colors.White;
-
-        return newColor;
-    }
     protected abstract int GetNotchCount();
 
     protected abstract Array<RC_NotchHint> GetNotchHints();

@@ -215,7 +215,6 @@ public partial class BarSizeControl : PanelContainer
 
     private float GetNotchVBarLength(int notchSize, float  fontSize, float fontDivide)
     {
-        // arbitrary magic number to push vBarLength further from side
-        return (notchSize * fontSize * 1.1f) + fontDivide * 2;
+        return (notchSize * fontSize) + fontDivide * 2;
     }
 }
