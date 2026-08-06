@@ -29,8 +29,8 @@ public partial class GridCreation : Container
 
     public bool isInitialized;
 
-    private float mainLineWidth;
-    private float dividerLineWidth;
+    public float mainLineWidth;
+    public float dividerLineWidth;
 
     [ExportToolButton("Redraw Grid")]
     public Callable RedrawButton => Callable.From(QueueRedraw);
@@ -104,8 +104,8 @@ public partial class GridCreation : Container
         int iterator = 0;
         for (int x = 0; x < cellCount.X;)
         {
-            vertLines[iterator++] = new Vector2(x * cellSize, 0);  // Start of line
-            vertLines[iterator++] = new Vector2(x * cellSize, cellCount.Y * cellSize); // End of line
+            vertLines[iterator++] = new Vector2((x * cellSize), 0);  // Start of line
+            vertLines[iterator++] = new Vector2((x * cellSize), cellCount.Y * cellSize); // End of line
             x++;
         }
 
@@ -119,8 +119,8 @@ public partial class GridCreation : Container
         iterator = 0;
         for (int y = 0; y < cellCount.Y;)
         {
-            horizLines[iterator++] = new Vector2(y * cellSize, 0);       // Start of line
-            horizLines[iterator++] = new Vector2(y * cellSize, -cellCount.X * cellSize); // End of line
+            horizLines[iterator++] = new Vector2((y * cellSize), 0);       // Start of line
+            horizLines[iterator++] = new Vector2((y * cellSize), -cellCount.X * cellSize); // End of line
             y++;    
         }
 
@@ -146,8 +146,8 @@ public partial class GridCreation : Container
         {
             if ((x % DividerCount) == 0)
             {
-                mainsPos[iterator++] = new Vector2(x * cellSize, 0);    // Start
-                mainsPos[iterator++] = new Vector2(x * cellSize, cellCount.Y * cellSize);  // end
+                mainsPos[iterator++] = new Vector2((x * cellSize), 0);    // Start
+                mainsPos[iterator++] = new Vector2((x * cellSize), cellCount.Y * cellSize);  // end
             }
             x++;
         }
@@ -172,8 +172,8 @@ public partial class GridCreation : Container
         {
             if (y == cellCount.Y || (y % DividerCount) == 0)
             {
-                dividersPos[iterator++] = new Vector2(y * cellSize, 0);     // start
-                dividersPos[iterator++] = new Vector2(y * cellSize, -cellCount.X * cellSize);  // end
+                dividersPos[iterator++] = new Vector2((y * cellSize), 0);     // start
+                dividersPos[iterator++] = new Vector2((y * cellSize), -cellCount.X * cellSize);  // end
             }
             y++;
         }

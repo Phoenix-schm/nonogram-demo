@@ -52,6 +52,7 @@ public partial class NonogramPuzzleManager : PanelContainer
         CellCount = Level.GetSize();
 
         ManualColorDict.Clear();
+        ManualColorDict[0] = Colors.White;
         UniqueColorList = [Colors.White];
         FullColorGrid = new();
 
@@ -168,6 +169,11 @@ public partial class NonogramPuzzleManager : PanelContainer
     public Color GetColorFromList(int colorIndex)
     {
         return ManualColorDict[colorIndex];
+    }
+
+    public Color GetDefaultColorFromList(int colorIndex)
+    {
+        return UniqueColorList[colorIndex];
     }
 
     public void ResetManualColorList()

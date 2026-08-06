@@ -44,16 +44,16 @@ public partial class VBarControl : BarControl
 
     protected override void DrawNotchNumbers(float interval, float _ratio, int steps, float startPos)
     {
-        float canvasPos = GridCreation.Instance.GetCanvasTransform().Origin.Y;
+        float canvasPos = GridCreation.Instance.GetCanvasTransform().Origin.Y; // starting pos going down
         canvasPos += (interval / 2) * _ratio;
 
         float pseudoFontSize = cellSize * fontSizeModifier * _ratio;
         fontSize = Mathf.RoundToInt(pseudoFontSize);
 
         float blockDivide = pseudoFontSize * .1f; // for shifting color blocks left
-        for (int i = 0;  i < steps; i++)
+        for (int notchIndex = 0;  notchIndex < steps; notchIndex++)
         {
-            string[] stringArray = CreateStringArrayFromNotchHint(i);
+            string[] stringArray = CreateStringArrayFromNotchHint(notchIndex);
 
             // how far from right numbers start from
             float stringMargin = startPos - blockDivide;
@@ -76,7 +76,7 @@ public partial class VBarControl : BarControl
                     fontChoice = AltFont;
                     _fontSizeModifier *= .95f;
 
-                    if ((i + curNumber) % 2 == 0)
+                    if ((notchIndex + curNumber) % 2 == 0)
                         fontColor = AltFontColor1;
                     else
                         fontColor = AltFontColor2;
@@ -87,11 +87,11 @@ public partial class VBarControl : BarControl
                     Color blockBGColor;
                     if (newString == "0")
                     {
-                        blockBGColor = i % 2 == 0 ? NotchColor : AltNotchColor;
+                        blockBGColor = notchIndex % 2 == 0 ? NotchColor : AltNotchColor;
                         blockBGColor.A = 0;
                     }
                     else
-                        blockBGColor = NonogramPuzzleManager.Instance.GetColorFromList(barHint[i].colorList[curNumber]);
+                        blockBGColor = NonogramPuzzleManager.Instance.GetColorFromList(barHint[notchIndex].colorList[curNumber]);
 
                     // modify font color to contrast with bg color
                     fontColor = (blockBGColor.Luminance >= .5f) ? Colors.Black : Colors.White;
@@ -114,6 +114,7 @@ public partial class VBarControl : BarControl
                 // width for centering text
                 float stringWidth = cellSize * _fontSizeModifier;
 
+                // Draw current number
                 DrawString(fontChoice, new Vector2(stringMargin - stringWidth, textStartV),
                     newString, HorizontalAlignment.Center,
                     stringWidth, newFontSize, fontColor);

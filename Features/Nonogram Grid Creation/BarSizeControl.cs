@@ -1,4 +1,5 @@
 using Common;
+using Features.NonogramChecker;
 using Features.NonogramGridCreation.BarGeneration;
 using Godot;
 using Godot.Collections;
@@ -31,13 +32,16 @@ public partial class BarSizeControl : PanelContainer
         GetViewport().Connect(StaticStringRef.s_size_changed, Callable.From(OnSizeChanged));
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 
+        ResetNonogramBarSizeControl();
+    }
+    public void ResetNonogramBarSizeControl()
+    {
         cellCount = NonogramPuzzleManager.CellCount;
         h_longestHint = GetLargetBarHintNotch(NonogramPuzzleManager.Instance.h_barHint);
         v_longestHint = GetLargetBarHintNotch(NonogramPuzzleManager.Instance.v_barHint);
 
         UpdateMinSizeWithConsequence();
     }
-
     public override void _Notification(int what)
     {
         if (what == NotificationResized)
@@ -59,7 +63,7 @@ public partial class BarSizeControl : PanelContainer
         Consequence = viewportSize - gridViewportSize;
 
         defaultBarRatio = viewportSize / 4;
-        secondaryBarRatio = viewportSize / 3;
+        secondaryBarRatio = viewportSize / 2;
 
         fontSizeModifier = defaultFontSizeModifier;
 
@@ -105,7 +109,7 @@ public partial class BarSizeControl : PanelContainer
             if (!useSecondaryBarRatio && ConsequenceIsLargerThanBarRatio(defaultBarRatio))
             {
                 // Try modifying font size
-                fontSizeModifier -= .05f;
+                fontSizeModifier -= .025f;
                 returnValid = false;
 
                 // if font size too small, try to use secondary bar ratio
@@ -216,5 +220,16 @@ public partial class BarSizeControl : PanelContainer
     private float GetNotchVBarLength(int notchSize, float  fontSize, float fontDivide)
     {
         return (notchSize * fontSize) + fontDivide * 2;
+    }
+
+
+    public override void _EnterTree()
+    {
+        CheckerSettings.ChangedImage += ResetNonogramBarSizeControl;
+    }
+
+    public override void _ExitTree()
+    {
+        CheckerSettings.ChangedImage -= ResetNonogramBarSizeControl;
     }
 }

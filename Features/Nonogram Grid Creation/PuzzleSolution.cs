@@ -26,7 +26,7 @@ public partial class PuzzleSolution : PanelContainer
 
     public override void _Draw()
     {
-        if (NonogramPuzzleManager.Instance == null)
+        if (NonogramPuzzleManager.Instance == null && GridCreation.Instance == null)
             return;
 
         if (!ShowSolution)
@@ -34,6 +34,7 @@ public partial class PuzzleSolution : PanelContainer
 
         Vector2I cellCount = NonogramPuzzleManager.CellCount;
         float cellSize = GridCreation.Instance.cellSize;
+        bool isColorful = NonogramPuzzleManager.Instance.IsColorful;
 
         for (int x = 0; x < cellCount.X; x++)
         {
@@ -44,11 +45,16 @@ public partial class PuzzleSolution : PanelContainer
 
                 if (colorIndex == 0)    // if it's white
                     continue;
+                Color cellColor;
 
-                Color cellColor = NonogramPuzzleManager.Instance.GetColorFromList(colorIndex);
+                if (isColorful)
+                    cellColor = NonogramPuzzleManager.Instance.GetColorFromList(colorIndex);
+                else
+                    cellColor = altCellColor;
 
                 DrawRect(
-                    new Rect2(new Vector2(x * cellSize, y * cellSize), new Vector2(cellSize, cellSize)),
+                    new Rect2(new Vector2(x * cellSize, y * cellSize),
+                    new Vector2(cellSize, cellSize)),
                     cellColor
                     );
             }

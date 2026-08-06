@@ -6,6 +6,8 @@ namespace Features.NonogramChecker;
 
 public partial class CheckerSettings : Control
 {
+    public static Action ChangedImage;
+
     [Export] PackedScene fileDialogScene { get; set; }
 
     [Export] Label LevelName { get; set; }
@@ -14,11 +16,13 @@ public partial class CheckerSettings : Control
     [Export] GridContainer ColorGrid { get; set; }
     [Export] Button FileSelect { get; set; }
 
+    [ExportCategory("Misc")]
+    [Export] Button SaveButton { get; set; }
+    [Export] Button ResetButton { get; set; }
+
     private FdGetNonogram fileDialog;
 
-    private string saveDirectory;
-
-    //TODO: Create color picket button script that stores reference to own index pos
+    private string saveDirectory = string.Empty;
 
     public override void _Ready()
     {
@@ -27,13 +31,15 @@ public partial class CheckerSettings : Control
 
         SetCheckerSettings();
 
-        FileSelect.Pressed += FileSelect_Pressed;
+        FileSelect.Pressed += OnFileSelectOpened;
+        ResetButton.Pressed += ResetToDefaultColors;
     }
 
-    private void FileSelect_Pressed()
+    private void OnFileSelectOpened()
     {
         fileDialog = fileDialogScene.Instantiate() as FdGetNonogram;
-
+        
+        // initialize filedialog
         fileDialog.fileDialog.FileSelected += FileDialog_FileSelected;
         fileDialog.fileDialog.CloseRequested += FileDialog_CloseRequested;
         fileDialog.fileDialog.DirSelected += FileDialog_DirSelected;
@@ -61,54 +67,51 @@ public partial class CheckerSettings : Control
             return;
 
         NonogramPuzzleManager.Instance.CreateNonogram(texture);
-        ClearColorPickers();
+        ChangedImage?.Invoke();
 
         SetCheckerSettings();
     }
 
     private void SetCheckerSettings()
     {
+        ClearColorPickers();
         foreach (Color color in NonogramPuzzleManager.Instance.UniqueColorList)
         {
             if (color == Colors.White)
                 continue;
 
-            ColorPickerButton button = new();
+            CheckerPickerButton button = new();
             button.Color = color;
             button.CustomMinimumSize = new Vector2(0, 150);
             button.SizeFlagsHorizontal = SizeFlags.ExpandFill;
 
             ColorGrid.AddChild(button);
             button.Owner = GetTree().Root;
-            button.ColorChanged += (Color newcolor) => ChangeColor(newcolor, button.GetIndex());
         }
-        string thing = NonogramPuzzleManager.Instance.Level.ResourcePath;
-        string[] newThing = thing.Split("/");
-        LevelName.Text = $"Level Name: {newThing[^1].Replace(".png", "").Capitalize()}";
+
+        string imagePath = NonogramPuzzleManager.Instance.Level.ResourcePath;
+        string[] pathArray = imagePath.Split("/");
+        LevelName.Text = $"Level Name: {pathArray[^1].Replace(".png", "").Capitalize()}";
 
         GridSize.Text = $"Grid Size: {NonogramPuzzleManager.Instance.Level.GetSize()}";
-    }
-
-    private void ChangeColor(Color color, int index)
-    {
-        NonogramPuzzleManager.Instance.SetManualColorList(index + 1, color);
     }
 
     public void ClearColorPickers()
     {
         foreach (Node child in ColorGrid.GetChildren())
         {
-            (child as ColorPickerButton).ColorChanged -= (Color newcolor) => ChangeColor(newcolor, child.GetIndex());
             child.QueueFree();
         }
     }
 
-    public override void _EnterTree()
+    public void ResetToDefaultColors()
     {
-    }
+        foreach (Node child in ColorGrid.GetChildren())
+        {
+            CheckerPickerButton button = child as CheckerPickerButton;
 
-    public override void _ExitTree()
-    {
-        ClearColorPickers();
+            // Offset by one because 0 is White
+            button.OnColorChanged(NonogramPuzzleManager.Instance.GetDefaultColorFromList(button.GetIndex() + 1));
+        }
     }
 }
