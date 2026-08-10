@@ -14,8 +14,6 @@ public partial class GridBackgroundColorGeneration : Control
     }
     Color gridColor;
 
-    GridCreation gridLogic;
-
     public override void _Draw()
     {
         if (GridCreation.Instance == null)

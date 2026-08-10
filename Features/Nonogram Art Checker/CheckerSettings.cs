@@ -16,6 +16,12 @@ public partial class CheckerSettings : Control
     [Export] GridContainer ColorGrid { get; set; }
     [Export] Button FileSelect { get; set; }
 
+    [ExportCategory("Rules")]
+    [Export] Button RuleButton { get; set; }
+    [Export] Button ExitRulesButton { get; set; }
+    [Export] Container RulesContainer { get; set; }
+    [Export] CanvasLayer RulesLayer { get; set; }
+
     [ExportCategory("Misc")]
     [Export] Button SaveButton { get; set; }
     [Export] Button ResetButton { get; set; }
@@ -31,9 +37,31 @@ public partial class CheckerSettings : Control
 
         SetCheckerSettings();
 
+        RulesLayer.Visible = false;
+
         FileSelect.Pressed += OnFileSelectOpened;
         ResetButton.Pressed += ResetToDefaultColors;
+
+        // Rules initialization
+        RuleButton.Pressed += UpdateRulesVisibility;
+        ExitRulesButton.Pressed += UpdateRulesVisibility;
+        RulesContainer.GuiInput += ClickRulesBG;
     }
+
+    #region RulesLogic
+    private void ClickRulesBG(InputEvent @event)
+    {
+        if (@event is not InputEventMouseButton mouseButton)
+            return;
+
+        UpdateRulesVisibility();
+    }
+
+    private void UpdateRulesVisibility()
+    {
+        RulesLayer.Visible = !RulesLayer.Visible;
+    }
+    #endregion
 
     private void OnFileSelectOpened()
     {
@@ -99,9 +127,7 @@ public partial class CheckerSettings : Control
     public void ClearColorPickers()
     {
         foreach (Node child in ColorGrid.GetChildren())
-        {
             child.QueueFree();
-        }
     }
 
     public void ResetToDefaultColors()

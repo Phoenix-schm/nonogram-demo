@@ -18,16 +18,14 @@ public partial class HBarControl : BarControl
 
         // the font size as a float for far smoother transitioning
         float pseudoFontSize = (cellSize * fontSizeModifier) * viewportScale;
-        float fontDivide = pseudoFontSize / 4;
+        float fontDivide = pseudoFontSize / 10; // the slight offset from the bottom 
 
         int index = 0;
         int colorIndex = 0;
         for (int i = 0; i < notches; i++)
         {
-            // Get number list based on current notch
-            string[] splitString = CreateStringArrayFromNotchHint(i);
-
-            float calcNotchHeight = startPos - ((splitString.Length) * pseudoFontSize) - fontDivide; // how long/tall notch is
+            // Get amount of numbers in this notch
+            float calcNotchHeight = startPos - (CreateStringArrayFromNotchHint(i).Length * pseudoFontSize) - fontDivide * 2; // how long/tall notch is
 
             barVectors[index++] = new Vector2(canvasPos, calcNotchHeight);
             barVectors[index++] = new Vector2(canvasPos, startPos);
@@ -42,7 +40,6 @@ public partial class HBarControl : BarControl
 
         DrawMultilineColors(barVectors, barColors, notchThickness);
     }
-
     protected override void DrawNotchNumbers(float interval, float _ratio, int steps, float startPos)
     {
         // initial starting pos begins at grid origin
@@ -157,7 +154,7 @@ public partial class HBarControl : BarControl
     {
         // draw background of entire bar
         DrawRect(
-            new Rect2(Vector2.Zero, new Vector2(GridCreation.Instance.cellCount.X * GridCreation.Instance.cellSize, startPos)),
+            new Rect2(Vector2.Zero, new Vector2(Size.X, startPos)),
             BGColor
             );
     }

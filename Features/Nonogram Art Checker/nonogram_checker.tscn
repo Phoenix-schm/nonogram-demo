@@ -1,11 +1,16 @@
 [gd_scene format=3 uid="uid://c7lao34qpt4vc"]
 
+[ext_resource type="FontFile" uid="uid://dpln6etjq5b8d" path="res://Assets/Fonts/Comfortaa/static/Comfortaa-Bold.ttf" id="1_vouk3"]
 [ext_resource type="PackedScene" uid="uid://h7ty2fpw4ts6" path="res://Features/Nonogram Grid Creation/nonogram_puzzle_manager.tscn" id="1_vur81"]
-[ext_resource type="Image" uid="uid://1rkqfhoy2ei0" path="res://Assets/Level Images/Pride/Pride_Butterfly.png" id="2_163m2"]
 [ext_resource type="Script" uid="uid://ciapqqib3p53x" path="res://Features/Nonogram Art Checker/CheckerSettings.cs" id="2_cwslg"]
 [ext_resource type="PackedScene" uid="uid://b1noe1mel0axl" path="res://Features/Nonogram Art Checker/fd_get_nonogram.tscn" id="3_g5cyb"]
+[ext_resource type="Image" uid="uid://y0yaddwar5v5" path="res://Assets/Level Images/NonogramTest_Color/Dragon7.png" id="3_vouk3"]
+
+[sub_resource type="Theme" id="Theme_163m2"]
+default_font = ExtResource("1_vouk3")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vur81"]
+bg_color = Color(0.86898494, 0.86898494, 0.8689847, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g3b8u"]
 bg_color = Color(0.26, 0.26, 0.26, 0.85882354)
@@ -30,6 +35,28 @@ font_size = 50
 color = Color(1, 1, 1, 1)
 thickness = 3
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hn5db"]
+bg_color = Color(0.9244808, 0.92448086, 0.92448086, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+
+[sub_resource type="LabelSettings" id="LabelSettings_0gdiy"]
+font = ExtResource("1_vouk3")
+font_size = 67
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_ptdpq"]
+grow_begin = -300.0
+grow_end = -300.0
+thickness = 10
+
+[sub_resource type="LabelSettings" id="LabelSettings_a8v4h"]
+font = ExtResource("1_vouk3")
+font_size = 55
+font_color = Color(0, 0, 0, 1)
+
 [node name="NonogramChecker" type="Control" unique_id=570448874]
 layout_mode = 3
 anchors_preset = 15
@@ -37,6 +64,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_163m2")
 
 [node name="BG" type="PanelContainer" parent="." unique_id=498945872]
 layout_mode = 1
@@ -63,9 +91,9 @@ theme_override_constants/margin_bottom = 30
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
-Level = ExtResource("2_163m2")
+Level = ExtResource("3_vouk3")
 
-[node name="Settings" type="MarginContainer" parent="BG/HBoxContainer" unique_id=441985603 node_paths=PackedStringArray("LevelName", "GridSize", "ColorGrid", "FileSelect", "SaveButton", "ResetButton")]
+[node name="Settings" type="MarginContainer" parent="BG/HBoxContainer" unique_id=441985603 node_paths=PackedStringArray("LevelName", "GridSize", "ColorGrid", "FileSelect", "RuleButton", "ExitRulesButton", "RulesContainer", "RulesLayer", "SaveButton", "ResetButton")]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 20
@@ -77,9 +105,13 @@ fileDialogScene = ExtResource("3_g5cyb")
 LevelName = NodePath("MarginContainer/VBoxContainer/LevelNameLabel2")
 GridSize = NodePath("MarginContainer/VBoxContainer/GridSizeLabel")
 ColorGrid = NodePath("MarginContainer/VBoxContainer/ColorListScroll/ColorListContainer")
-FileSelect = NodePath("MarginContainer/VBoxContainer/RuleContainer2/Button")
-SaveButton = NodePath("MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/Button2")
-ResetButton = NodePath("MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/Button3")
+FileSelect = NodePath("MarginContainer/VBoxContainer/RuleContainer2/FileButton")
+RuleButton = NodePath("MarginContainer/VBoxContainer/RuleContainer/RuleButton")
+ExitRulesButton = NodePath("../../../RulesCanvas/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ExitButton")
+RulesContainer = NodePath("../../../RulesCanvas/PanelContainer")
+RulesLayer = NodePath("../../../RulesCanvas")
+SaveButton = NodePath("MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/SaveButton")
+ResetButton = NodePath("MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/ResetButton")
 
 [node name="SettingsBG" type="PanelContainer" parent="BG/HBoxContainer/Settings" unique_id=1362958872]
 layout_mode = 2
@@ -96,6 +128,7 @@ theme_override_constants/margin_bottom = 30
 layout_mode = 2
 
 [node name="RuleContainer" type="HBoxContainer" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer" unique_id=146159699]
+custom_minimum_size = Vector2(0, 95)
 layout_mode = 2
 
 [node name="Label2" type="Label" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/RuleContainer" unique_id=1524116673]
@@ -109,7 +142,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_g3b8u")
 
-[node name="Button" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/RuleContainer" unique_id=1339326364]
+[node name="RuleButton" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/RuleContainer" unique_id=1339326364]
 custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 43
@@ -121,6 +154,7 @@ theme_override_constants/separation = 10
 theme_override_styles/separator = SubResource("StyleBoxLine_g3b8u")
 
 [node name="RuleContainer2" type="HBoxContainer" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer" unique_id=1782669935]
+custom_minimum_size = Vector2(0, 95)
 layout_mode = 2
 
 [node name="Label2" type="Label" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/RuleContainer2" unique_id=848986375]
@@ -130,7 +164,7 @@ size_flags_stretch_ratio = 0.5
 text = "File:"
 label_settings = SubResource("LabelSettings_ptdpq")
 
-[node name="Button" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/RuleContainer2" unique_id=2064337651]
+[node name="FileButton" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/RuleContainer2" unique_id=2064337651]
 custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -204,14 +238,146 @@ size_flags_vertical = 8
 theme_override_constants/separation = 18
 alignment = 1
 
-[node name="Button2" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=949314982]
+[node name="SaveButton" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=949314982]
 custom_minimum_size = Vector2(200, 140)
 layout_mode = 2
 theme_override_font_sizes/font_size = 49
 text = "Export"
 
-[node name="Button3" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=1311496127]
+[node name="ResetButton" type="Button" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=1311496127]
 custom_minimum_size = Vector2(200, 140)
 layout_mode = 2
 theme_override_font_sizes/font_size = 49
 text = "Reset"
+
+[node name="RulesCanvas" type="CanvasLayer" parent="." unique_id=2058752568]
+
+[node name="PanelContainer" type="PanelContainer" parent="RulesCanvas" unique_id=1924565025]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="RulesCanvas" unique_id=491120368]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 324
+theme_override_constants/margin_top = 52
+theme_override_constants/margin_right = 324
+theme_override_constants/margin_bottom = 52
+
+[node name="PanelContainer" type="PanelContainer" parent="RulesCanvas/MarginContainer" unique_id=59050295]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hn5db")
+
+[node name="MarginContainer" type="MarginContainer" parent="RulesCanvas/MarginContainer/PanelContainer" unique_id=143635258]
+layout_mode = 2
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 22
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RulesCanvas/MarginContainer/PanelContainer/MarginContainer" unique_id=1240450708]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="RulesCanvas/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1709775355]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Rules"
+label_settings = SubResource("LabelSettings_0gdiy")
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="RulesCanvas/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=462512784]
+custom_minimum_size = Vector2(0, 17.775)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_ptdpq")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="RulesCanvas/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1990912820]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 7.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RulesCanvas/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer" unique_id=298900391]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 25
+
+[node name="Rule1" type="Label" parent="RulesCanvas/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" unique_id=636950722]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "- Nonogram grid sizes should be in iterations of 5. ie (5x5), (10x10), (25x30), (15x20), etc."
+label_settings = SubResource("LabelSettings_a8v4h")
+autowrap_mode = 2
+
+[node name="Rule2" type="Label" parent="RulesCanvas/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" unique_id=2055188601]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "- No colors should be so similar that they become indistinguishable."
+label_settings = SubResource("LabelSettings_a8v4h")
+autowrap_mode = 2
+
+[node name="Rule3" type="Label" parent="RulesCanvas/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" unique_id=1398122961]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "- Grid sizes cannot be over 30 pixels in size."
+label_settings = SubResource("LabelSettings_a8v4h")
+autowrap_mode = 2
+
+[node name="Rule4" type="Label" parent="RulesCanvas/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" unique_id=1227269540]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "- Make titles distinct and short but descriptive."
+label_settings = SubResource("LabelSettings_a8v4h")
+autowrap_mode = 2
+
+[node name="Rule5" type="Label" parent="RulesCanvas/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" unique_id=479585637]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "- The art piece should be part of a theme. (Look at document for list of themes)"
+label_settings = SubResource("LabelSettings_a8v4h")
+autowrap_mode = 2
+
+[node name="OptionalRule1" type="RichTextLabel" parent="RulesCanvas/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" unique_id=1013386915]
+layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 55
+theme_override_font_sizes/bold_font_size = 55
+theme_override_font_sizes/bold_italics_font_size = 55
+theme_override_font_sizes/italics_font_size = 55
+theme_override_font_sizes/mono_font_size = 55
+bbcode_enabled = true
+text = "- [i]Optional: Make sure to add white-space in the art. Without any white-space, the gameplay will become more \"paint by number\" than a puzzle.[/i]"
+fit_content = true
+scroll_active = false
+
+[node name="OptionalRule2" type="RichTextLabel" parent="RulesCanvas/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" unique_id=647987086]
+layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 55
+theme_override_font_sizes/bold_font_size = 55
+theme_override_font_sizes/bold_italics_font_size = 55
+theme_override_font_sizes/italics_font_size = 55
+theme_override_font_sizes/mono_font_size = 55
+bbcode_enabled = true
+text = "- [i]Optional: If making a grid with symmetrical art, add minor asymmetries to make the puzzle more challenging.[/i]"
+fit_content = true
+scroll_active = false
+
+[node name="ExitButton" type="Button" parent="RulesCanvas/MarginContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=174796156]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 48
+text = "Exit"

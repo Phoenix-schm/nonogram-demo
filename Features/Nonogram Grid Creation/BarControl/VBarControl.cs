@@ -7,26 +7,25 @@ namespace Features.NonogramGridCreation.BarGeneration;
 [Tool]
 public partial class VBarControl : BarControl
 {
-    protected override void DrawNotchBackgrounds(float viewportScale, int steps, float startPos)
+    protected override void DrawNotchBackgrounds(float _ratio, int steps, float startPos)
     {
         Vector2[] barVectors = new Vector2[steps * 2];
         Color[] barColors = new Color[steps];
 
         float canvasPos = GridCreation.Instance.GetCanvasTransform().Origin.Y;
-        canvasPos += (cellSize / 2) * viewportScale;
+
+        canvasPos += (cellSize / 2) * _ratio;
 
         // the font size as a float for far smoother transitioning
-        float pseudoFontSize = (cellSize * fontSizeModifier) * viewportScale;
+        float pseudoFontSize = (cellSize * fontSizeModifier) * _ratio;
         float font_divide = pseudoFontSize * .1f;   // the slight offset from the edge of the last number
 
         int index = 0;
         int colorIndex = 0;
         for (int i = 0; i < steps; i++)
         {
-            // Get number list based on current notch
-            string[] splitString = CreateStringArrayFromNotchHint(i);
-
-            float calcNotchHeight = startPos - (splitString.Length * pseudoFontSize) - font_divide * 2;
+            // Get length of numbers in notch
+            float calcNotchHeight = startPos - (CreateStringArrayFromNotchHint(i).Length * pseudoFontSize) - font_divide * 2;
 
             barVectors[index++] = new Vector2(startPos, canvasPos);
             barVectors[index++] = new Vector2(calcNotchHeight, canvasPos);
@@ -36,7 +35,7 @@ public partial class VBarControl : BarControl
             else
                 barColors[colorIndex++] = AltNotchColor;
 
-            canvasPos += cellSize * viewportScale;
+            canvasPos += cellSize * _ratio;
         }
 
         DrawMultilineColors(barVectors, barColors, notchThickness);
@@ -54,7 +53,7 @@ public partial class VBarControl : BarControl
         for (int notchIndex = 0;  notchIndex < steps; notchIndex++)
         {
             string[] stringArray = CreateStringArrayFromNotchHint(notchIndex);
-
+            
             // how far from right numbers start from
             float stringMargin = startPos - blockDivide;
             // the amount between color blocks
@@ -154,7 +153,7 @@ public partial class VBarControl : BarControl
     {
         // draw background of entire bar. This is to prevent 
         DrawRect(
-            new Rect2(Vector2.Zero, new Vector2(startPos, GridCreation.Instance.cellCount.Y * GridCreation.Instance.cellSize)),
+            new Rect2(Vector2.Zero, new Vector2(startPos, GridCreation.Instance.cellCount.Y * cellSize)),
             BGColor
             );
     }

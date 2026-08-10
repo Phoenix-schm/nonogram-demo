@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://711wt0clpjm5" path="res://Features/Nonogram Grid Creation/GridBackgroundColorGeneration.cs" id="1_24pnn"]
 [ext_resource type="Script" uid="uid://c7upej0i7ejjp" path="res://Features/Nonogram Grid Creation/GridCreation.cs" id="1_850oj"]
 [ext_resource type="Script" uid="uid://b3q70f8mg1wbc" path="res://Features/Nonogram Grid Creation/NonogramPuzzleManager.cs" id="1_laob2"]
-[ext_resource type="Image" uid="uid://blqa3vwub50ed" path="res://Assets/Level Images/NonogramTest/NonogramTest_30x30_002.png" id="2_saru1"]
+[ext_resource type="Image" uid="uid://bnykli7mc0h3k" path="res://Assets/Level Images/Pride/Pride_Flag2.png" id="2_0knj8"]
 [ext_resource type="FontVariation" uid="uid://dl4a8h80xgxxe" path="res://Assets/Fonts/Comfortaa/comfortaa_medium_variation_embolden26.tres" id="3_q6bt6"]
 [ext_resource type="Script" uid="uid://c7adxpdojcf33" path="res://Features/Nonogram Grid Creation/BarSizeControl.cs" id="3_rt4c0"]
 [ext_resource type="Script" uid="uid://ces8jkraar1ks" path="res://Features/Nonogram Grid Creation/BarControl/HBarControl.cs" id="3_v7fx8"]
@@ -37,7 +37,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_amml3")
 script = ExtResource("1_laob2")
-Level = ExtResource("2_saru1")
+Level = ExtResource("2_0knj8")
 
 [node name="GridContainer" type="GridContainer" parent="." unique_id=1962825199]
 layout_mode = 2

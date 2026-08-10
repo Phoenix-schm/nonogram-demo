@@ -82,7 +82,7 @@ public partial class NonogramPuzzleManager : PanelContainer
         Color prevColor = Colors.White;
 
         // iterate through cells in current column/row
-        for(int cell = 0; cell < altNotch; cell++)
+        for (int cell = 0; cell < altNotch; cell++)
         {
             index = isVertical ? new(cell, notch) : new(notch, cell);
             curColor = Level.GetPixelv(index);

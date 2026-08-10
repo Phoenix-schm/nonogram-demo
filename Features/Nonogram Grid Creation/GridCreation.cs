@@ -27,8 +27,6 @@ public partial class GridCreation : Container
     public Vector2 gridSize;
     public float cellSize;     // uniform square size
 
-    public bool isInitialized;
-
     public float mainLineWidth;
     public float dividerLineWidth;
 
@@ -86,7 +84,7 @@ public partial class GridCreation : Container
 
     private void DrawGrid()
     {
-        DrawMainGridLines(MainLineColor, mainLineWidth);
+        DrawMainGridLines();
 
         if (DividerCount <= 0)
         {
@@ -94,10 +92,10 @@ public partial class GridCreation : Container
             GameLogger.Error("Dividier Count less than 0.");
             return;
         }
-        DrawDividerLines(DividerLineColor, dividerLineWidth);
+        DrawDividerLines();
     }
 
-    private void DrawMainGridLines(Color lineColor, float lineWidth)
+    private void DrawMainGridLines()
     {
         Vector2[] vertLines = new Vector2[(cellCount.X) * 2]; // line positions
 
@@ -109,7 +107,7 @@ public partial class GridCreation : Container
             x++;
         }
 
-        DrawMultiline(vertLines, lineColor, lineWidth);
+        DrawMultiline(vertLines, MainLineColor, mainLineWidth);
 
         // Rotate draw for horizontal lines
         DrawSetTransform(Vector2.Zero, float.Pi / 2, Vector2.One);
@@ -124,7 +122,7 @@ public partial class GridCreation : Container
             y++;    
         }
 
-        DrawMultiline(horizLines, lineColor, lineWidth);
+        DrawMultiline(horizLines, MainLineColor, mainLineWidth);
         // reset rotation
         DrawSetTransform(Vector2.Zero, 0, Vector2.One);
     }
@@ -132,10 +130,7 @@ public partial class GridCreation : Container
     /// <summary>
     /// Draws divider lines in iterations of DividerCount. 
     /// Must be separate function so that lines appear on top of main lines
-    /// </summary>
-    /// <param name="lineColor"></param>
-    /// <param name="lineWidth"></param>
-    private void DrawDividerLines(Color lineColor, float lineWidth)
+    private void DrawDividerLines()
     {
         int dividerAmount = Mathf.FloorToInt(cellCount.X / DividerCount);
         // offset divider amount to adjust for showing lines from one end to the other
@@ -152,14 +147,14 @@ public partial class GridCreation : Container
             x++;
         }
 
-        DrawMultiline(mainsPos, lineColor, lineWidth);
+        DrawMultiline(mainsPos, DividerLineColor, dividerLineWidth);
 
         // Additional line due to strange behavior of using just lineWidth.
         // last x line is somehow showing full line width instead of half like the rest of the last lines.
         DrawLine(
             new Vector2(cellCount.X * cellSize, 0), 
             new Vector2(cellCount.X *cellSize, cellCount.Y * cellSize),
-            lineColor, lineWidth / 2);
+            DividerLineColor, dividerLineWidth / 2);
 
         // Rotate draw
         DrawSetTransform(Vector2.Zero, float.Pi / 2, Vector2.One);
@@ -178,7 +173,7 @@ public partial class GridCreation : Container
             y++;
         }
 
-        DrawMultiline(dividersPos, lineColor, lineWidth);
+        DrawMultiline(dividersPos, DividerLineColor, dividerLineWidth);
         // reset rotation
         DrawSetTransform(Vector2.Zero, 0, Vector2.One);
     }
