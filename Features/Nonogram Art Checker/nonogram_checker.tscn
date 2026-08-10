@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://h7ty2fpw4ts6" path="res://Features/Nonogram Grid Creation/nonogram_puzzle_manager.tscn" id="1_vur81"]
 [ext_resource type="Script" uid="uid://ciapqqib3p53x" path="res://Features/Nonogram Art Checker/CheckerSettings.cs" id="2_cwslg"]
 [ext_resource type="PackedScene" uid="uid://b1noe1mel0axl" path="res://Features/Nonogram Art Checker/fd_get_nonogram.tscn" id="3_g5cyb"]
-[ext_resource type="Image" uid="uid://y0yaddwar5v5" path="res://Assets/Level Images/NonogramTest_Color/Dragon7.png" id="3_vouk3"]
+[ext_resource type="Image" uid="uid://bn8nx42vw8yaf" path="res://Assets/Level Images/Pride/Pride_Flag1.png" id="3_vouk3"]
 
 [sub_resource type="Theme" id="Theme_163m2"]
 default_font = ExtResource("1_vouk3")
@@ -227,6 +227,7 @@ theme_override_constants/v_separation = 17
 columns = 4
 
 [node name="MarginContainer" type="MarginContainer" parent="BG/HBoxContainer/Settings/MarginContainer/VBoxContainer" unique_id=1716992590]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.25

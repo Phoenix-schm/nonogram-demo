@@ -30,6 +30,8 @@ public partial class CheckerSettings : Control
 
     private string saveDirectory = string.Empty;
 
+    private bool isSimilarColors = false;
+
     public override void _Ready()
     {
         if (NonogramPuzzleManager.Instance == null)
@@ -103,6 +105,7 @@ public partial class CheckerSettings : Control
     private void SetCheckerSettings()
     {
         ClearColorPickers();
+        Color? prevColor = null;
         foreach (Color color in NonogramPuzzleManager.Instance.UniqueColorList)
         {
             if (color == Colors.White)
@@ -116,6 +119,10 @@ public partial class CheckerSettings : Control
             ColorGrid.AddChild(button);
             button.Owner = GetTree().Root;
         }
+
+        //isSimilarColors = CheckColorsIsSimilar();
+
+        //GD.Print($"Is Similar Colors {isSimilarColors}");
 
         string imagePath = NonogramPuzzleManager.Instance.Level.ResourcePath;
         string[] pathArray = imagePath.Split("/");
@@ -139,5 +146,28 @@ public partial class CheckerSettings : Control
             // Offset by one because 0 is White
             button.OnColorChanged(NonogramPuzzleManager.Instance.GetDefaultColorFromList(button.GetIndex() + 1));
         }
+    }
+
+    //public bool CheckColorsIsSimilar()
+    //{
+    //    foreach (Color curColor in NonogramPuzzleManager.Instance.ManualColorDict.K)
+    //    {
+    //        foreach (Color checkColor in NonogramPuzzleManager.Instance.UniqueColorList)
+    //        {
+    //            if (IsSimilarColors(curColor, checkColor))
+    //                return true;
+    //        }
+    //    }
+
+    //    // TODO: Label which colors are too similar
+    //    return false;
+    //}
+
+    public bool IsSimilarColors(Color colorA, Color colorB)
+    {
+        float calc = float.Abs(float.Lerp(0, 255, colorA.R) - float.Lerp(0, 255, colorB.R))
+                   + float.Abs(float.Lerp(0, 255, colorA.G) - float.Lerp(0, 255, colorB.G)) 
+                   + float.Abs(float.Lerp(0, 255, colorA.B) - float.Lerp(0, 255, colorB.B));
+        return calc < 50;
     }
 }
